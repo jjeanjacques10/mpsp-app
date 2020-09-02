@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -48,12 +49,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            debugPrint('Entrar no chat');
-          },
-          child: Icon(Icons.chat),
-		  backgroundColor: Color.fromRGBO(197, 23, 24, 1),
+        floatingActionButton: Container(
+          width: 70,
+          height: 70,
+          child: FloatingActionButton(
+            onPressed: () {
+              debugPrint('Entrar no chat');
+            },
+            child: Icon(
+              Icons.forum,
+              size: 35,
+            ),
+            backgroundColor: Color.fromRGBO(197, 23, 24, 1),
+          ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SingleChildScrollView(
@@ -64,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 5),
                   Text(
                     "Bem vindo,",
                     style: TextStyle(
@@ -82,64 +91,223 @@ class _HomeScreenState extends State<HomeScreen> {
                   Container(
                     padding: EdgeInsets.all(5),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           "Notícias",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
                           ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CarouselSlider(
+                          options: CarouselOptions(height: 150.0),
+                          items: [1, 2, 3, 4, 5].map((i) {
+                            return Builder(
+                              builder: (BuildContext context) {
+                                return Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    margin:
+                                        EdgeInsets.symmetric(horizontal: 5.0),
+                                    decoration: BoxDecoration(
+                                      color: Color.fromRGBO(197, 23, 24, 1),
+                                    ),
+                                    child: Center(
+                                      child: Text('Notícia $i',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            color: Colors.white,
+                                          )),
+                                    ));
+                              },
+                            );
+                          }).toList(),
+                        ),
+                        SizedBox(
+                          height: 20,
                         ),
                         Text(
                           "Serviços",
                           style: TextStyle(
-                            fontSize: 30,
+                            fontSize: 25,
                             fontWeight: FontWeight.w600,
+                            color: Colors.grey[600],
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 10),
+                        Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 1",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 2",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 3",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 4",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 5",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 6",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 7",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 8",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {},
+                                  color: Colors.grey[800],
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "Serviço 9",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        Container(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          child: FlatButton(
+                            onPressed: () {},
+                            child: Icon(
+                              Icons.keyboard_arrow_down,
+                              size: 70
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
-                  GridView.count(
-                    primary: false,
-                    padding: const EdgeInsets.all(20),
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    crossAxisCount: 2,
-                    children: <Widget>[
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text("He'd have you all unravel at the"),
-                        color: Colors.teal[100],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Heed not the rabble'),
-                        color: Colors.teal[200],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Sound of screams but the'),
-                        color: Colors.teal[300],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Who scream'),
-                        color: Colors.teal[400],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Revolution is coming...'),
-                        color: Colors.teal[500],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        child: const Text('Revolution, they...'),
-                        color: Colors.teal[600],
-                      ),
-                    ],
-                  )
                 ],
               ),
             )));
