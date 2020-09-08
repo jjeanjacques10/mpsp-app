@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/screens/home_screen.dart';
+import 'package:mpsp_app/screens/register_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: {
-        "/": (context) => HomeScreen(),
+        "/": (context) => RegisterScreen(),
       },
     );
   }
