@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/screens/home_screen.dart';
+import 'package:mpsp_app/screens/login_screen.dart';
 import 'package:mpsp_app/screens/register_screen.dart';
 
 void main() {
@@ -13,12 +14,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
+      initialRoute: '/login',
       routes: {
         "/": (context) => RegisterScreen(),
+        "/home": (context) => HomeScreen(),
+        "/login": (context) => LoginScreen(),
       },
     );
   }
