@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app_theme.dart';
 import 'package:mpsp_app/screens/home_screen.dart';
 import 'package:mpsp_app/screens/login_screen.dart';
 import 'package:mpsp_app/screens/register_screen.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/login',
       routes: {
-        "/": (context) => RegisterScreen(),
+        "/register": (context) => RegisterScreen(),
         "/home": (context) => HomeScreen(),
         "/login": (context) => LoginScreen(),
       },
