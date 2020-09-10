@@ -299,10 +299,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           alignment: AlignmentDirectional.bottomCenter,
                           child: FlatButton(
                             onPressed: () {},
-                            child: Icon(
-                              Icons.keyboard_arrow_down,
-                              size: 70
-                            ),
+                            child: Icon(Icons.keyboard_arrow_down, size: 70),
                           ),
                         )
                       ],

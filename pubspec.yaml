@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   carousel_slider: ^2.2.1
+  url_launcher: ^ 5.0.2
+  shimmer: ^1.1.1
   flutter_signin_button: ^1.1.0
 
 
