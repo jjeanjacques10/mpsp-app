@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mpsp_app/components/contact_channels.dart';
 
 import '../components/register_form.dart';
 
@@ -21,7 +20,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      drawer: ContactChannels(),
       body:
           //IconData(59558, fontFamily: 'MaterialIcons'),
           const SingleChildScrollView(
