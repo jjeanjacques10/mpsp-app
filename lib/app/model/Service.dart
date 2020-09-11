@@ -1,17 +1,17 @@
-class UserModel {
+class ServiceModel {
   int id;
   String nameServise;
   String dateService;
   String attendant;
 
-  UserModel({
+  ServiceModel({
     this.id,
     this.nameServise,
     this.dateService,
     this.attendant,
   });
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  ServiceModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nameServise = json['nameServise'];
     dateService = json['dateService'];

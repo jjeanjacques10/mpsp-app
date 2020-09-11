@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-
-import '../app_theme.dart';
+import 'package:mpsp_app/app/components/showAlertDialog.dart';
+import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/repository/user_repository.dart';
+import 'package:mpsp_app/app/utils/app_theme.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -12,6 +14,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+  UserRepository repository = new UserRepository();
+  UserModel userModel = new UserModel();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +45,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value.trim().isEmpty) {
                           return 'Email é obrigatório';
                         }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        userModel.email = value;
                       },
                     ),
                     TextFormField(
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Senha',
                       ),
@@ -51,6 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         if (value.trim().isEmpty) {
                           return 'Senha é obrigatória';
                         }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        userModel.password = value;
                       },
                     ),
                     SizedBox(height: 25.0),
@@ -86,7 +99,38 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (formKey.currentState.validate()) {
+                              formKey.currentState.save();
+                              repository
+                                  .login(userModel.email, userModel.password)
+                                  .then((value) {
+                                if (value == true) {
+                                  print("Login Realizado");
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    "/home",
+                                  );
+                                } else {
+                                  print("Login Não Realizado");
+                                  showAlertDialog(
+                                      context,
+                                      "Não foi possivel realizar o login",
+                                      Icon(Icons.error));
+                                }
+                              }).catchError((onError) => {
+                                        showAlertDialog(
+                                            context,
+                                            "Não foi possivel realizar o login",
+                                            Icon(Icons.error))
+                                      });
+                            } else {
+                              showAlertDialog(
+                                  context,
+                                  "Não foi possivel realizar o login",
+                                  Icon(Icons.error));
+                            }
+                          },
                         ),
                       ],
                     ),
