@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 import 'package:shimmer/shimmer.dart';
@@ -18,22 +16,18 @@ class _HistoricScreenState extends State<HistoricScreen> {
         centerTitle: true,
         elevation: 0.0,
       ),
-      body:SingleChildScrollView(
-      child:
-         static const _highLightColor = Color.fromRGBO(64, 75, 96, .1);
-        static const _baseColor = Colors.white;
-        static const _duration = Duration(milliseconds: 4000);
-        Shimmer.fromColors(
-        highlightColor: _highLightColor,
-        baseColor: _baseColor,
-        period: _duration,
-        child: Container(
-        height: 18,
-        width: 40,
-        color: _highLightColor,
+      body: SingleChildScrollView(
+        child: Shimmer.fromColors(
+          highlightColor: Color.fromRGBO(64, 75, 96, .1),
+          baseColor: Colors.white,
+          period: Duration(milliseconds: 4000),
+          child: Container(
+            height: 18,
+            width: 40,
+            color: Color.fromRGBO(64, 75, 96, .1),
+          ),
         ),
-        ),
-       
+      ),
     );
   }
 }
