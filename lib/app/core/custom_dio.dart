@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:mpsp_app/app/repository/user_repository.dart';
+import 'package:mpsp_app/app/services/user_repository.dart';
 
 class CustomDio {
   var _dio;

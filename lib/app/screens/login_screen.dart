@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mpsp_app/app/components/showAlertDialog.dart';
 import 'package:mpsp_app/app/model/User.dart';
-import 'package:mpsp_app/app/repository/user_repository.dart';
+import 'package:mpsp_app/app/services/user_repository.dart';
 import 'package:mpsp_app/app/utils/app_theme.dart';
 
 class LoginScreen extends StatefulWidget {
