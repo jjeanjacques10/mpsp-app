@@ -23,8 +23,6 @@ class CustomDio {
     receiveTimeout: 30000,
   );
 
-  Dio get instance => _dio;
-
   _onRequest(RequestOptions options) async {
     var token = await UserRepository().getToken();
     options.headers['Authorization'] = token;
@@ -39,4 +37,6 @@ class CustomDio {
   _onError(DioError e) {
     return e;
   }
+
+  Dio get instance => _dio;
 }
