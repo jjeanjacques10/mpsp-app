@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
 import 'package:mpsp_app/app/screens/login_screen.dart';
 import 'package:mpsp_app/app/screens/register_screen.dart';
+import 'package:mpsp_app/app/screens/chat_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => HomeScreen(),
         "/register": (context) => RegisterScreen(),
         "/login": (context) => LoginScreen(),
+        "/chat": (context) => ChatScreen(),
       },
     );
   }
