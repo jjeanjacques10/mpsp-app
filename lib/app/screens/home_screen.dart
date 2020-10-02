@@ -121,21 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     CarouselSlider(
                       options: CarouselOptions(height: 150.0),
-                      items: [1, 2, 3, 4, 5].map((i) {
+                      items: [1, 2, 3, 4].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
                             return Container(
                                 width: MediaQuery.of(context).size.width,
                                 margin: EdgeInsets.symmetric(horizontal: 5.0),
                                 decoration: BoxDecoration(
-                                  color: Color.fromRGBO(197, 23, 24, 1),
+                                  color: Colors.white,
                                 ),
                                 child: Center(
-                                  child: Text('Notícia $i',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        color: Colors.white,
-                                      )),
+                                  child: Image.asset(
+                                      'assets/images/servico$i.jpg'),
                                 ));
                           },
                         );
