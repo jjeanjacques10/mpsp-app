@@ -9,6 +9,7 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String _password = "";
   bool _agreedToTOS = true;
 
   @override
@@ -21,6 +22,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Nome',
+              hintText: 'ex. Maria Paula da Silva Pereira',
             ),
             validator: (String value) {
               if (value.trim().isEmpty) {
@@ -32,6 +34,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Localização ',
+              hintText: 'ex. São Paulo, SP - Brasil'
             ),
             validator: (String value) {
               if (value.trim().isEmpty) {
@@ -42,6 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'CPF',
+              hintText: 'ex. 123.456.789-00'
             ),
             validator: (String value) {
               if (value.trim().isEmpty) {
@@ -52,20 +56,30 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Telefone',
+              hintText: 'ex. (11) 98765-4321'
             ),
             validator: (String value) {
+
+              final pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
+              final regExp = RegExp(pattern); 
+
               if (value.trim().isEmpty) {
                 return 'Telefone é obrigatório';
+              }else if(!regExp.hasMatch(value.trim())){
+                return 'Telefone inválido';
               }
             },
           ),
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Email',
+              hintText: 'ex. maria.paula@mpsp.br'
             ),
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'Email é obrigatório';
+              }else if(!value.trim().contains('@')){
+                return 'Insira um e-mail válido';
               }
             },
           ),
@@ -78,16 +92,20 @@ class _RegisterFormState extends State<RegisterForm> {
                 return 'Senha é obrigatória';
               }
             },
+            obscureText: true,
           ),
           TextFormField(
             decoration: const InputDecoration(
-              labelText: 'Confirmar  senha',
+              labelText: 'Confirmar senha',
             ),
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'Confirmar senha é obrigatório';
+              }else if(value.trim()!=_password.trim()){
+                return 'As senhas devem ser iguais';
               }
             },
+            obscureText: true,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -107,15 +125,12 @@ class _RegisterFormState extends State<RegisterForm> {
               ],
             ),
           ),
-          Row(
-            children: <Widget>[
-              const Spacer(),
-              OutlineButton(
-                highlightedBorderColor: Colors.black,
-                onPressed: _submittable() ? _submit : null,
-                child: const Text('Cadastrar'),
-              ),
-            ],
+          Center(
+            child: OutlineButton(
+              highlightedBorderColor: Colors.black,
+              onPressed: _submittable() ? _submit : null,
+              child: const Text('Cadastrar'),
+            ),
           ),
         ],
       ),
