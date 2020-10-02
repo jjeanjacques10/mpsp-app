@@ -45,12 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   debugPrint('Ativei denúncia');
                 }),
             ListTile(
-                leading: Icon(Icons.exit_to_app),
-                title: Text("Sair"),
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                }),
-            ListTile(
+              leading: Icon(Icons.exit_to_app),
               title: Text('Sair'),
               onTap: () {
                 //Deslogar()
@@ -162,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 1",
+                                  "Procuradoria-Geral",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -177,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 2",
+                                  "Atendimento ao Inativo",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -192,58 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 3",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Serviço 4",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Serviço 5",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Serviço 6",
+                                  "Biblioteca",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -264,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 7",
+                                  "CTIC",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -279,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 8",
+                                  "Demonstrativo on-line",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -294,7 +238,58 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Text(
-                                  "Serviço 9",
+                                  "Diário Oficial",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RaisedButton(
+                              onPressed: () {},
+                              color: Colors.grey[800],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "e-funcional",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            RaisedButton(
+                              onPressed: () {},
+                              color: Colors.grey[800],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Email Institucional",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            RaisedButton(
+                              onPressed: () {},
+                              color: Colors.grey[800],
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "Formulários Administrativos",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
