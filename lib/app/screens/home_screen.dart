@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/services/user_service.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  UserService userService = UserService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +49,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: Text("Sair"),
                 onTap: () {
                   Navigator.pushNamed(context, '/login');
-                })
+                }),
+            ListTile(
+              title: Text('Sair'),
+              onTap: () {
+                //Deslogar()
+                userService.logout();
+                Navigator.pushReplacementNamed(
+                  context,
+                  "/",
+                );
+              },
+            ),
           ],
         ),
       ),
