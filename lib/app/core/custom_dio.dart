@@ -24,7 +24,7 @@ class CustomDio {
   );
 
   _onRequest(RequestOptions options) async {
-    var token = await UserRepository().getToken();
+    var token = await UserService().getToken();
     options.headers['Authorization'] = token;
   }
 

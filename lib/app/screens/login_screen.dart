@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  UserRepository repository = new UserRepository();
+  UserService userService = new UserService();
   UserModel userModel = new UserModel();
 
   @override
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () {
                             if (formKey.currentState.validate()) {
                               formKey.currentState.save();
-                              repository
+                              userService
                                   .login(userModel.email, userModel.password)
                                   .then((value) {
                                 if (value == true) {

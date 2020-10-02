@@ -2,7 +2,7 @@ import 'package:mpsp_app/app/core/custom_dio.dart';
 import 'package:mpsp_app/app/model/User.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserRepository {
+class UserService {
   Future<bool> isLogged() async {
     final String token = await this.getToken();
     return token != null;
