@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app/components/contact_channels.dart';
 
 import '../components/register_form.dart';
 
