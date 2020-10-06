@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:validadores/ValidarEmail.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key key}) : super(key: key);
@@ -30,12 +31,10 @@ class _RegisterFormState extends State<RegisterForm> {
               }
             },
           ),
-          const SizedBox(height: 16.0),
           TextFormField(
             decoration: const InputDecoration(
-              labelText: 'Localização ',
-              hintText: 'ex. São Paulo, SP - Brasil'
-            ),
+                labelText: 'Localização ',
+                hintText: 'ex. São Paulo, SP - Brasil'),
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'Localização é obrigatória';
@@ -44,9 +43,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           TextFormField(
             decoration: const InputDecoration(
-              labelText: 'CPF',
-              hintText: 'ex. 123.456.789-00'
-            ),
+                labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'CPF é obrigatório';
@@ -56,21 +53,20 @@ class _RegisterFormState extends State<RegisterForm> {
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Telefone',
-              hintText: 'ex. (11) 98765-4321'
+              hintText: 'ex. (11) 98765-4321',
             ),
             validator: (String value) {
-
               final pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
-              final regExp = RegExp(pattern); 
+              final regExp = RegExp(pattern);
 
               if (value.trim().isEmpty) {
                 return 'Telefone é obrigatório';
-              }else if(!regExp.hasMatch(value.trim())){
+              } else if (!regExp.hasMatch(value.trim())) {
                 return 'Telefone inválido';
               }
             },
           ),
-          TextFormField(
+          /* TextFormField(
             decoration: const InputDecoration(
               labelText: 'Email',
               hintText: 'ex. maria.paula@mpsp.br'
@@ -81,6 +77,28 @@ class _RegisterFormState extends State<RegisterForm> {
               }else if(!value.trim().contains('@')){
                 return 'Insira um e-mail válido';
               }
+            },
+          ), */
+          TextFormField(
+            obscureText: false,
+            //style: style,
+            decoration: const InputDecoration(
+              labelText: 'Email',
+              hintText: 'ex. maria.paula@mpsp.br'
+            ),
+            keyboardType: TextInputType.emailAddress,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'O campo Email é obrigatório.';
+              } else if (value.length < 12) {
+                return 'O e-mail deve ter mais caracteres';
+              } else if (!EmailValidator.validate(value)) {
+                return 'O formato do e-mail está errado';
+              }
+              return null;
+            },
+            onSaved: (value) {
+              //userModel.email = value;
             },
           ),
           TextFormField(
@@ -101,7 +119,7 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'Confirmar senha é obrigatório';
-              }else if(value.trim()!=_password.trim()){
+              } else if (value.trim() != _password.trim()) {
                 return 'As senhas devem ser iguais';
               }
             },
