@@ -20,8 +20,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         title: const Text('Cadastro'),
         centerTitle: true,
         elevation: 0.0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+        ),
       ),
-      drawer: ContactChannels(),
       body:
           //IconData(59558, fontFamily: 'MaterialIcons'),
           const SingleChildScrollView(
