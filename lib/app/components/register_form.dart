@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:validadores/ValidarEmail.dart';
+import 'package:cpfcnpj/cpfcnpj.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key key}) : super(key: key);
@@ -47,6 +48,8 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'CPF é obrigatório';
+              }else if(!CPF.isValid(value)){
+                return 'CPF inválido';
               }
             },
           ),
