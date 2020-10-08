@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mpsp_app/app/components/cardService.dart';
 import 'package:mpsp_app/app/model/User.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
+import 'package:mpsp_app/app/stores/home_screen_store.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,9 +14,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   UserService userService = UserService();
+  HomeScreenStore homeScreenStore;
 
   @override
   Widget build(BuildContext context) {
+    homeScreenStore = HomeScreenStore();
     return Scaffold(
       /* appBar: AppBar(
           backgroundColor: Colors.blue,
@@ -144,17 +148,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    SizedBox(
-                      height: 200,
-                      child: GridView.count(
-                        childAspectRatio: 3 / 2,
-                        crossAxisCount: 2,
-                        children: List.generate(5, (index) {
-                          return cardService(context, Size(11, 11), 'titulo',
-                              'img', 'desc', 'url');
-                        }),
-                      ),
-                    ),
+                    Observer(builder: (ctx) {
+                      if (homeScreenStore.isLoading) {
+                        return SizedBox(
+                          height: 200,
+                          child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 3 / 2,
+                              ),
+                              itemCount: homeScreenStore.filtered == null
+                                  ? 0
+                                  : homeScreenStore.filtered.length,
+                              itemBuilder: (BuildContext ctx, int index) {
+                                List.generate(5, (index) {
+                                  return cardService(context, Size(11, 11),
+                                      'titulo', 'img', 'desc', 'url');
+                                });
+                              }),
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: FlatButton(
