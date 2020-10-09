@@ -11,23 +11,30 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   UserService userService = UserService();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /* appBar: AppBar(
-          backgroundColor: Colors.blue,
-          title: Text(
-            'Home Page',
-            style: TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ), */
       endDrawerEnableOpenDragGesture: true,
       endDrawer: Drawer(
         child: ListView(
           children: <Widget>[
+            UserAccountsDrawerHeader(
+              accountName: Text(
+                "userModel.name",
+                style: TextStyle(fontSize: 22),
+              ),
+              accountEmail: Text(
+                "userModel.email",
+                style: TextStyle(fontSize: 15),
+              ),
+              currentAccountPicture: CircleAvatar(
+                radius: 30.0,
+                backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
+                backgroundColor: Colors.transparent,
+              ),
+            ),
             ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text("Perfil"),
@@ -35,27 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(
                     context,
                     '/profile',
-                    arguments: null,
-                  );
+                    //arguments: userModel,
+                  ).then((value) {
+                    setState(() {
+                      // userModel = value;
+                    });
+                  });
                 }),
             ListTile(
-                leading: Icon(Icons.warning),
-                title: Text("Denunciar abuso"),
+                leading: Icon(Icons.exit_to_app),
+                title: Text("Sair"),
                 onTap: () {
-                  debugPrint('Ativei denúncia');
-                }),
-            ListTile(
-              leading: Icon(Icons.exit_to_app),
-              title: Text('Sair'),
-              onTap: () {
-                //Deslogar()
-                userService.logout();
-                Navigator.pushReplacementNamed(
-                  context,
-                  "/",
-                );
-              },
-            ),
+                  Navigator.pushNamed(context, '/login');
+                })
           ],
         ),
       ),
@@ -64,6 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 70,
         child: FloatingActionButton(
           onPressed: () {
+            Navigator.pushNamed(context, '/chat', arguments: UserModel(id: 1));
             debugPrint('Entrar no chat');
           },
           child: Icon(
@@ -83,13 +83,30 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 5),
-              Text(
-                "Bem vindo,",
-                style: TextStyle(
-                  fontSize: 19,
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Bem vindo,",
+                    style: TextStyle(
+                      fontSize: 19,
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                        size: 40,
+                      ),
+                      onPressed: () {
+                        _scaffoldKey.currentState.openEndDrawer();
+                        Scaffold.of(context).openEndDrawer();
+                      },
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 5),
               Text(
                 "NOME PERFIL",
                 style: TextStyle(
@@ -115,7 +132,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                     CarouselSlider(
-                      options: CarouselOptions(height: 150.0),
+                      options: CarouselOptions(
+                        height: 150.0,
+                        viewportFraction: 0.75,
+                        autoPlay: true,
+                        autoPlayInterval: Duration(seconds: 7),
+                        autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                      ),
                       items: [1, 2, 3, 4].map((i) {
                         return Builder(
                           builder: (BuildContext context) {
@@ -304,10 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: FlatButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/chat',
-                              arguments: UserModel(id: 1));
-                        },
+                        onPressed: () {},
                         child: Icon(Icons.keyboard_arrow_down, size: 70),
                       ),
                     )
