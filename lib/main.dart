@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
 import 'package:mpsp_app/app/screens/login_screen.dart';
+import 'package:mpsp_app/app/screens/profile_screen.dart';
 import 'package:mpsp_app/app/screens/register_screen.dart';
 import 'package:mpsp_app/app/screens/chat_screen.dart';
+import 'package:flutter/services.dart';
+
 
 void main() {
   runApp(MyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Color.fromRGBO(197, 23, 24, 1), // navigation bar color
+    statusBarColor: Color.fromRGBO(197, 23, 24, 1), // status bar color
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -18,11 +25,12 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         "/home": (context) => HomeScreen(),
         "/register": (context) => RegisterScreen(),
         "/login": (context) => LoginScreen(),
+        "/profile": (context) => ProfileScreen(),
         "/chat": (context) => ChatScreen(),
       },
     );
