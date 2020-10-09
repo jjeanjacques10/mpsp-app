@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:validadores/ValidarEmail.dart';
 import 'package:cpfcnpj/cpfcnpj.dart';
@@ -48,7 +50,7 @@ class _RegisterFormState extends State<RegisterForm> {
             validator: (String value) {
               if (value.trim().isEmpty) {
                 return 'CPF é obrigatório';
-              }else if(!CPF.isValid(value)){
+              } else if (!CPF.isValid(value)) {
                 return 'CPF inválido';
               }
             },
@@ -69,34 +71,19 @@ class _RegisterFormState extends State<RegisterForm> {
               }
             },
           ),
-          /* TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Email',
-              hintText: 'ex. maria.paula@mpsp.br'
-            ),
-            validator: (String value) {
-              if (value.trim().isEmpty) {
-                return 'Email é obrigatório';
-              }else if(!value.trim().contains('@')){
-                return 'Insira um e-mail válido';
-              }
-            },
-          ), */
           TextFormField(
             obscureText: false,
             //style: style,
             decoration: const InputDecoration(
-              labelText: 'Email',
-              hintText: 'ex. maria.paula@mpsp.br'
-            ),
+                labelText: 'Email', hintText: 'ex. maria.paula@mpsp.br'),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
-              if (value.isEmpty) {
-                return 'O campo Email é obrigatório.';
+               if (value.isEmpty) {
+                return ' Email é obrigatório.';
               } else if (value.length < 12) {
-                return 'O e-mail deve ter mais caracteres';
+                return 'O email no mínimo 12 caracteres';
               } else if (!EmailValidator.validate(value)) {
-                return 'O formato do e-mail está errado';
+                return 'O formato do e-mail está incorreto';
               }
               return null;
             },
@@ -109,6 +96,7 @@ class _RegisterFormState extends State<RegisterForm> {
               labelText: 'Senha',
             ),
             validator: (String value) {
+              _password = value;
               if (value.trim().isEmpty) {
                 return 'Senha é obrigatória';
               }
@@ -163,10 +151,21 @@ class _RegisterFormState extends State<RegisterForm> {
   }
 
   void _submit() {
-    if (_formKey.currentState.validate()) {
-      const SnackBar snackBar = SnackBar(content: Text('Form submitted'));
-
-      Scaffold.of(context).showSnackBar(snackBar);
+    try {
+      if (_formKey.currentState.validate()) {
+        SnackBar snackBar = SnackBar(
+          content: Text('Cadastro enviado com sucesso!'),
+          action: SnackBarAction(
+            label: 'Ok',
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        );
+        Scaffold.of(context).showSnackBar(snackBar);
+      }
+    } on Exception catch (e, s) {
+      print(s);
     }
   }
 
