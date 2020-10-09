@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:validadores/ValidarEmail.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:mpsp_app/app/components/showAlertDialog.dart';
 import 'package:mpsp_app/app/model/User.dart';
@@ -41,6 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     TextFormField(
                       decoration: const InputDecoration(
                         labelText: 'Email',
+                        hintText: 'ex. maria.paula@mpsp.br'
                       ),
                       validator: (String value) {
                         if (value.trim().isEmpty) {
@@ -53,19 +55,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                     ),
                     TextFormField(
-                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: 'Senha',
                       ),
-                      validator: (String value) {
-                        if (value.trim().isEmpty) {
-                          return 'Senha é obrigatória';
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'O campo Email é obrigatório.';
+                        } else if (value.length < 12) {
+                          return 'O e-mail deve ter mais caracteres';
+                        } else if (!EmailValidator.validate(value)) {
+                          return 'O formato do e-mail está errado';
                         }
                         return null;
                       },
                       onSaved: (value) {
                         userModel.password = value;
                       },
+                      obscureText: true,
                     ),
                     SizedBox(height: 25.0),
                     Row(
@@ -142,17 +148,23 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: TextStyle(
                             color: Colors.grey, fontWeight: FontWeight.w400),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print('Esqueci minha senha');
+                      },
                     ),
                     SignInButton(
                       Buttons.Google,
                       text: "Login com Google",
-                      onPressed: () {},
+                      onPressed: () {
+                        print("Login com Google");
+                      },
                     ),
                     SignInButton(
                       Buttons.FacebookNew,
                       text: "Login com Facebook",
-                      onPressed: () {},
+                      onPressed: () {
+                        print("Login com Facebook");
+                      },
                     ),
                     SizedBox(width: 150),
                   ],
