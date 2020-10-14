@@ -18,7 +18,7 @@ class CustomDio {
   }
 
   BaseOptions _options = BaseOptions(
-    baseUrl: 'http://192.168.0.107:3000',
+    baseUrl: 'https://mpsp-wisen.herokuapp.com/',
     connectTimeout: 30000,
     receiveTimeout: 30000,
   );

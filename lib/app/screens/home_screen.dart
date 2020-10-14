@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mpsp_app/app/components/cardService.dart';
 import 'package:mpsp_app/app/model/User.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
+import 'package:mpsp_app/app/stores/home_screen_store.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,9 +15,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   UserService userService = UserService();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  HomeScreenStore homeScreenStore;
 
   @override
   Widget build(BuildContext context) {
+    homeScreenStore = HomeScreenStore();
     return Scaffold(
       endDrawerEnableOpenDragGesture: true,
       endDrawer: Drawer(
@@ -73,12 +78,10 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color.fromRGBO(197, 23, 24, 1),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
-        primary: false,
-        physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        child: SingleChildScrollView(
+          primary: false,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -170,162 +173,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Procuradoria-Geral",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
+                    Observer(builder: (ctx) {
+                      if (homeScreenStore.isLoading) {
+                        return SizedBox(
+                          height: 200,
+                          child: GridView.builder(
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 3 / 2,
                               ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Atendimento ao Inativo",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Biblioteca",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "CTIC",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Demonstrativo on-line",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Diário Oficial",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "e-funcional",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Email Institucional",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            RaisedButton(
-                              onPressed: () {},
-                              color: Colors.grey[800],
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 10),
-                                child: Text(
-                                  "Formulários Administrativos",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                              itemCount: homeScreenStore.filtered == null
+                                  ? 0
+                                  : homeScreenStore.filtered.length,
+                              itemBuilder: (BuildContext ctx, int index) {
+                                List.generate(5, (index) {
+                                  return cardService(context, Size(11, 11),
+                                      'titulo', 'img', 'desc', 'url');
+                                });
+                              }),
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                     Container(
                       alignment: AlignmentDirectional.bottomCenter,
                       child: FlatButton(
@@ -340,6 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
