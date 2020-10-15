@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:validadores/ValidarEmail.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:mpsp_app/app/components/showAlertDialog.dart';
-import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/components/show_alert_dialog.dart';
+import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/utils/app_theme.dart';
 

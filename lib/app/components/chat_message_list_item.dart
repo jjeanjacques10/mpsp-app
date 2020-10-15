@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 
 class MessagesListItem extends StatelessWidget {

@@ -1,5 +1,5 @@
 import 'package:mpsp_app/app/core/custom_dio.dart';
-import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {

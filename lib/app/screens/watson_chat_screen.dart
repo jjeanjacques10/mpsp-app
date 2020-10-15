@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mpsp_app/app/components/chat_mesage_list_item.dart';
-import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/components/chat_message_list_item.dart';
+import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/services/chat_message_service.dart';
 import 'package:watson_assistant_v2/watson_assistant_v2.dart';
