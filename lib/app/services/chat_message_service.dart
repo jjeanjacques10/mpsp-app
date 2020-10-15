@@ -9,14 +9,12 @@ class ChatMessageService {
         res.data.map<ChatMessage>((c) => ChatMessage.fromJson(c)).toList());
   }
 
-  Future<List<ChatMessage>> getMessagesUserById(int id, {int userId}) async {
+  Future<ChatMessage> getMessagesUserById(int id, {int userId}) async {
     final dio = CustomDio.withAuthentication().instance;
 
     return dio
-        .get(
-            '/conversation?userId=' + (userId != null ? userId.toString() : ''))
-        .then((res) =>
-            res.data.map<ChatMessage>((c) => ChatMessage.fromJson(c)).toList());
+        .get('/conversation/' + (id != null ? id.toString() : ''))
+        .then((res) => ChatMessage.fromJson(res.data));
   }
 
   Future<void> create(ChatMessage chatMessageModel) async {

@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
       _populate(userModel);
       i++;
     }
-    return Flexible(
+/*     return Flexible(
       child: ListView.builder(
         padding: EdgeInsets.all(8.0),
         reverse: true,
@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
             chatMessage: _messageList[index], userModel: userModel),
         itemCount: _messageList.length,
       ),
-    );
+    ); */
   }
 
   // Envia uma mensagem com o padrão a direita
@@ -159,14 +159,6 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _populate(UserModel userModel) {
-    chatMessageService.getMessagesUserById(userModel.id).then((messages) {
-      for (var message in messages) {
-        if (messages != null) {
-          setState(() {
-            _messageList.insert(0, message);
-          });
-        }
-      }
-    });
+    chatMessageService.getMessagesUserById(userModel.id).then((messages) {});
   }
 }

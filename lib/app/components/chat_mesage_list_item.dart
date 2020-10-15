@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/model/User.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 
-class ChatMessageListItem extends StatelessWidget {
-  final ChatMessage chatMessage;
+class MessagesListItem extends StatelessWidget {
+  final Messages messages;
   final UserModel userModel;
 
-  ChatMessageListItem({this.chatMessage, this.userModel});
+  MessagesListItem({this.messages, this.userModel});
 
   @override
   Widget build(BuildContext context) {
-    return chatMessage.type == ChatMessageType.sent
+    return messages.ownerMessage != 'Alice'
         ? _showSentMessage()
         : _showReceivedMessage();
   }
@@ -33,7 +33,7 @@ class ChatMessageListItem extends StatelessWidget {
           ),
         ),
         child: Text(
-          chatMessage.messages[0].message,
+          messages.message,
           textAlign: TextAlign.right,
         ),
       ),
@@ -44,10 +44,10 @@ class ChatMessageListItem extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 64.0, 0.0),
       leading: CircleAvatar(
-        backgroundImage: AssetImage('assets/images/elisa.jpg'),
+        backgroundImage: AssetImage('assets/images/mpsp-logo.png'),
       ),
       title: Text(
-        chatMessage.messages[0].message,
+        messages.message,
         textAlign: TextAlign.left,
         style: TextStyle(fontWeight: FontWeight.w500),
       ),

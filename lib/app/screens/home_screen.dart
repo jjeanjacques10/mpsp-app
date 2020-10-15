@@ -98,6 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 leading: Icon(Icons.exit_to_app),
                 title: Text("Sair"),
                 onTap: () {
+                  userService.logout();
                   Navigator.pushNamed(context, '/login');
                 })
           ],
@@ -108,7 +109,8 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 70,
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.pushNamed(context, '/chat', arguments: UserModel(id: 1));
+            Navigator.pushNamed(context, '/chat',
+                arguments: UserModel(id: 1, name: homeScreenStore.name));
             debugPrint('Entrar no chat');
           },
           child: Icon(

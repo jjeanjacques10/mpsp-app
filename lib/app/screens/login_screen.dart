@@ -19,6 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
   UserModel userModel = new UserModel();
 
   @override
+  void initState() {
+    userService.isLogged().then((isLogged) {
+      if (isLogged == true) {
+        Navigator.pushReplacementNamed(
+          context,
+          "/home",
+        );
+      }
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -41,9 +54,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(width: 15),
                     TextFormField(
                       decoration: const InputDecoration(
-                        labelText: 'Email',
-                        hintText: 'ex. maria.paula@mpsp.br'
-                      ),
+                          labelText: 'Email',
+                          hintText: 'ex. maria.paula@mpsp.br'),
                       validator: (String value) {
                         if (value.trim().isEmpty) {
                           return 'Email é obrigatório';
@@ -60,11 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'O campo Email é obrigatório.';
-                        } else if (value.length < 12) {
-                          return 'O e-mail deve ter mais caracteres';
-                        } else if (!EmailValidator.validate(value)) {
-                          return 'O formato do e-mail está errado';
+                          return 'O campo senha é obrigatório.';
+                        } else if (value.length < 5) {
+                          return 'A senha deve ter mais caracteres';
                         }
                         return null;
                       },

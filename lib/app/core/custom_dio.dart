@@ -10,22 +10,24 @@ class CustomDio {
 
   CustomDio.withAuthentication() {
     _dio = Dio(_options);
-    _dio.interceptors.add(InterceptorsWrapper(
-      onRequest: _onRequest,
-      onResponse: _onResponse,
-      onError: _onError,
-    ));
+    _dio
+      ..interceptors.add(InterceptorsWrapper(
+        onRequest: (RequestOptions options) => requestInterceptor(options),
+        onResponse: _onResponse,
+        onError: _onError,
+      ));
   }
 
   BaseOptions _options = BaseOptions(
-    baseUrl: 'https://mpsp-wisen.herokuapp.com/',
+    baseUrl: 'https://mpsp-wisen.herokuapp.com',
     connectTimeout: 30000,
     receiveTimeout: 30000,
   );
 
-  _onRequest(RequestOptions options) async {
+  dynamic requestInterceptor(RequestOptions options) async {
     var token = await UserService().getToken();
-    options.headers['Authorization'] = token;
+    options.headers.addAll({"Authorization": "Bearer $token"});
+    return options;
   }
 
   _onResponse(Response e) {
@@ -35,6 +37,9 @@ class CustomDio {
   }
 
   _onError(DioError e) {
+    if (e.response?.statusCode == 403 || e.response?.statusCode == 401) {
+      UserService().logout();
+    }
     return e;
   }
 

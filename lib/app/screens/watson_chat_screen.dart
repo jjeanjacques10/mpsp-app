@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app/components/chat_mesage_list_item.dart';
+import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/model/chat_message.dart';
+import 'package:mpsp_app/app/services/chat_message_service.dart';
 import 'package:watson_assistant_v2/watson_assistant_v2.dart';
 
 class WatsonChatScreen extends StatefulWidget {
@@ -11,7 +15,12 @@ class WatsonChatScreen extends StatefulWidget {
 }
 
 class _WatsonChatScreenState extends State<WatsonChatScreen> {
-  String _text;
+  final _messageList = <Messages>[];
+  final _controllerText = new TextEditingController();
+
+  int i = 1;
+  ChatMessageService chatMessageService = ChatMessageService();
+
   WatsonAssistantV2Credential credential = WatsonAssistantV2Credential(
     version: '2019-02-28',
     username: 'apikey',
@@ -26,16 +35,16 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   WatsonAssistantContext watsonAssistantContext =
       WatsonAssistantContext(context: {});
 
-  final myController = TextEditingController();
-
   void _callWatsonAssistant() async {
     watsonAssistantResponse = await watsonAssistant.sendMessage(
-        myController.text, watsonAssistantContext);
+        _controllerText.text, watsonAssistantContext);
     setState(() {
-      _text = watsonAssistantResponse.resultText;
+      _addMessage(
+          content: watsonAssistantResponse.resultText,
+          type: ChatMessageType.received);
     });
     watsonAssistantContext = watsonAssistantResponse.context;
-    myController.clear();
+    _controllerText.clear();
   }
 
   @override
@@ -48,9 +57,11 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserModel userModel = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Watson_Assistant_V2'),
+        title: Text('Maria Paula'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -59,9 +70,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
             ),
             onPressed: () {
               watsonAssistantContext.resetContext();
-              setState(() {
-                _text = null;
-              });
             },
           )
         ],
@@ -74,51 +82,119 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              TextField(
-                controller: myController,
-                decoration: InputDecoration(
-                  hintText: 'Your Input to the chatbot',
-                  contentPadding:
-                      EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 1.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        BorderSide(color: Colors.lightBlueAccent, width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(32.0)),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(
-                _text != null ? '$_text' : 'Watson Response Here',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-              SizedBox(
-                height: 24.0,
-              ),
+              _buildList(userModel),
+              Divider(height: 1.0),
+              _buildUserInput(userModel),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _callWatsonAssistant,
-        child: Icon(Icons.send),
       ),
     );
   }
 
   @override
   void dispose() {
-    myController.dispose();
+    _controllerText.dispose();
     super.dispose();
+  }
+
+  // Cria a lista de mensagens (de baixo para cima)
+  Widget _buildList(UserModel userModel) {
+    if (i == 1) {
+      _populate(userModel);
+      i++;
+    }
+    return Flexible(
+      child: ListView.builder(
+        padding: EdgeInsets.all(8.0),
+        reverse: true,
+        itemBuilder: (_, int index) => MessagesListItem(
+            messages: _messageList[index], userModel: userModel),
+        itemCount: _messageList.length,
+      ),
+    );
+  }
+
+  // Monta uma linha com o campo de text e o botão de enviao
+  Widget _buildUserInput(UserModel userModel) {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: new Row(
+        children: <Widget>[
+          _buildTextField(),
+          _buildSendButton(userModel),
+        ],
+      ),
+    );
+  }
+
+  // Campo para escrever a mensagem
+  Widget _buildTextField() {
+    return new Flexible(
+      child: new TextField(
+        controller: _controllerText,
+        decoration: new InputDecoration.collapsed(
+          hintText: "Enviar mensagem",
+        ),
+      ),
+    );
+  }
+
+  // Botão para enviar a mensagem
+  Widget _buildSendButton(UserModel userModel) {
+    return new Container(
+      margin: new EdgeInsets.only(left: 8.0),
+      child: new IconButton(
+          icon: new Icon(Icons.send, color: Theme.of(context).accentColor),
+          onPressed: () {
+            if (_controllerText.text.isNotEmpty) {
+              _sendMessage(content: _controllerText.text, userModel: userModel);
+            }
+          }),
+    );
+  }
+
+  // Envia uma mensagem com o padrão a direita
+  void _sendMessage({String content, UserModel userModel}) {
+    _addMessage(
+        content: content, type: ChatMessageType.sent, userModel: userModel);
+    _callWatsonAssistant();
+  }
+
+  // Adiciona uma mensagem na lista de mensagens
+  void _addMessage(
+      {String content, ChatMessageType type, UserModel userModel}) {
+    var message = Messages(
+      message: content,
+      ownerMessage: type == ChatMessageType.sent ? userModel.name : 'Alice',
+    );
+    print(message);
+
+    setState(() {
+      _messageList.insert(0, message);
+    });
+
+    if (type == ChatMessageType.sent) {
+      // Envia a mensagem para o chatbot e aguarda sua resposta
+      //_dialogFlowRequest(query: message.messages[0].message);
+    }
+    if (message.message != "Escrevendo...") {
+      //chatMessageService.create(message);
+    }
+  }
+
+  void _populate(UserModel userModel) {
+    //chatMessageService.getMessagesUserById(userModel.id).then((messages) {
+    chatMessageService.getMessagesUserById(1).then((messages) {
+      print(messages);
+      for (var message in messages.messages) {
+        if (messages != null) {
+          setState(() {
+            _messageList.insert(0, message);
+          });
+        }
+      }
+    });
   }
 }
