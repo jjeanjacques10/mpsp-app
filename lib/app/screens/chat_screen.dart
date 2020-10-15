@@ -29,8 +29,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
     return Scaffold(
       appBar: new AppBar(
-        title: Text('Elisa '),
-        backgroundColor: Colors.lightBlue[700],
+        title: Text('Maria Paula'),
+        backgroundColor: Colors.red,
       ),
       body: Column(
         children: <Widget>[
