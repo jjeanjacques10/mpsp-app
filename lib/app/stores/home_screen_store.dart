@@ -1,13 +1,14 @@
 import 'package:mobx/mobx.dart';
 import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/service_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 part 'home_screen_store.g.dart';
 
 class HomeScreenStore = _HomeScreenStoreBase with _$HomeScreenStore;
 
 abstract class _HomeScreenStoreBase with Store {
   final ServiceService serviceService = ServiceService();
-  List<ServiceModel> _listaPartnerLocal = <ServiceModel>[];
+  List<ServiceModel> _listaServiceLocal = <ServiceModel>[];
 
   _HomeScreenStoreBase() {
     init();
@@ -15,8 +16,14 @@ abstract class _HomeScreenStoreBase with Store {
 
   init() async {
     isLoading = true;
-    _listaPartnerLocal = await serviceService.findAll();
-    listaPartner = _listaPartnerLocal.asObservable();
+
+    //Name
+    SharedPreferences item = await SharedPreferences.getInstance();
+    nome = item.getString('name');
+
+    //Service List
+    _listaServiceLocal = await serviceService.findAll();
+    listaService = _listaServiceLocal.asObservable();
     isLoading = false;
   }
 
@@ -24,10 +31,13 @@ abstract class _HomeScreenStoreBase with Store {
   String filtro = "";
 
   @observable
-  ObservableList<ServiceModel> listaPartner = <ServiceModel>[].asObservable();
+  ObservableList<ServiceModel> listaService = <ServiceModel>[].asObservable();
 
   @observable
   bool isLoading = false;
+
+  @observable
+  String nome = '';
 
   @action
   findAllCourses() async {
@@ -41,20 +51,19 @@ abstract class _HomeScreenStoreBase with Store {
 
   @computed
   List<ServiceModel> get filtered {
-    if (filtro.isEmpty) {
-      return listaPartner;
-    } else {
-      var lista = listaPartner
-          .where((partner) => partner.nameServise.toLowerCase().contains(
-                filtro.toLowerCase(),
-              ))
-          .toList();
-      return lista;
-    }
+    return listaService;
   }
 
   @computed
   int get quantidade {
-    return listaPartner.length;
+    return listaService.length;
+  }
+
+  @computed
+  String get name {
+    if (nome != '') {
+      return nome;
+    }
+    return '';
   }
 }

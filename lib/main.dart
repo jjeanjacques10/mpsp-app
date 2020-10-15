@@ -6,11 +6,11 @@ import 'package:mpsp_app/app/screens/register_screen.dart';
 import 'package:mpsp_app/app/screens/chat_screen.dart';
 import 'package:flutter/services.dart';
 
-
 void main() {
   runApp(MyApp());
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Color.fromRGBO(197, 23, 24, 1), // navigation bar color
+    systemNavigationBarColor:
+        Color.fromRGBO(197, 23, 24, 1), // navigation bar color
     statusBarColor: Color.fromRGBO(197, 23, 24, 1), // status bar color
   ));
 }
