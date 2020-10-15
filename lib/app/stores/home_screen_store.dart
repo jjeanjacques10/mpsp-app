@@ -19,7 +19,7 @@ abstract class _HomeScreenStoreBase with Store {
 
     //Name
     SharedPreferences item = await SharedPreferences.getInstance();
-    nome = item.getString('name');
+    nome = item.getString('name') != null ? item.getString('name') : '';
 
     //Service List
     _listaServiceLocal = await serviceService.findAll();
