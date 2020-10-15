@@ -23,6 +23,12 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
       (_$quantidadeComputed ??= Computed<int>(() => super.quantidade,
               name: '_HomeScreenStoreBase.quantidade'))
           .value;
+  Computed<String> _$nameComputed;
+
+  @override
+  String get name => (_$nameComputed ??=
+          Computed<String>(() => super.name, name: '_HomeScreenStoreBase.name'))
+      .value;
 
   final _$filtroAtom = Atom(name: '_HomeScreenStoreBase.filtro');
 
@@ -39,18 +45,18 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
     });
   }
 
-  final _$listaPartnerAtom = Atom(name: '_HomeScreenStoreBase.listaPartner');
+  final _$listaServiceAtom = Atom(name: '_HomeScreenStoreBase.listaService');
 
   @override
-  ObservableList<ServiceModel> get listaPartner {
-    _$listaPartnerAtom.reportRead();
-    return super.listaPartner;
+  ObservableList<ServiceModel> get listaService {
+    _$listaServiceAtom.reportRead();
+    return super.listaService;
   }
 
   @override
-  set listaPartner(ObservableList<ServiceModel> value) {
-    _$listaPartnerAtom.reportWrite(value, super.listaPartner, () {
-      super.listaPartner = value;
+  set listaService(ObservableList<ServiceModel> value) {
+    _$listaServiceAtom.reportWrite(value, super.listaService, () {
+      super.listaService = value;
     });
   }
 
@@ -66,6 +72,21 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
   set isLoading(bool value) {
     _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
+    });
+  }
+
+  final _$nomeAtom = Atom(name: '_HomeScreenStoreBase.nome');
+
+  @override
+  String get nome {
+    _$nomeAtom.reportRead();
+    return super.nome;
+  }
+
+  @override
+  set nome(String value) {
+    _$nomeAtom.reportWrite(value, super.nome, () {
+      super.nome = value;
     });
   }
 
@@ -95,10 +116,12 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
   String toString() {
     return '''
 filtro: ${filtro},
-listaPartner: ${listaPartner},
+listaService: ${listaService},
 isLoading: ${isLoading},
+nome: ${nome},
 filtered: ${filtered},
-quantidade: ${quantidade}
+quantidade: ${quantidade},
+name: ${name}
     ''';
   }
 }

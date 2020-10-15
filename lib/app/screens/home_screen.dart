@@ -21,25 +21,64 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     homeScreenStore = HomeScreenStore();
     return Scaffold(
+      key: _scaffoldKey,
       endDrawerEnableOpenDragGesture: true,
       endDrawer: Drawer(
         child: ListView(
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                "userModel.name",
-                style: TextStyle(fontSize: 22),
-              ),
-              accountEmail: Text(
-                "userModel.email",
-                style: TextStyle(fontSize: 15),
-              ),
-              currentAccountPicture: CircleAvatar(
-                radius: 30.0,
-                backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
-                backgroundColor: Colors.transparent,
-              ),
-            ),
+            Observer(builder: (ctx) {
+              if (homeScreenStore.isLoading) {
+                return UserAccountsDrawerHeader(
+                  accountName: Text(
+                    homeScreenStore.name,
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  accountEmail: Text(
+                    "userModel.email",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  currentAccountPicture: CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
+                    backgroundColor: Colors.transparent,
+                  ),
+                );
+              } else {
+                if (homeScreenStore.name.isEmpty) {
+                  return UserAccountsDrawerHeader(
+                    accountName: Text(
+                      "userModel.name",
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    accountEmail: Text(
+                      "userModel.email",
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    currentAccountPicture: CircleAvatar(
+                      radius: 30.0,
+                      backgroundImage:
+                          AssetImage("assets/images/mpsp-logo.png"),
+                      backgroundColor: Colors.transparent,
+                    ),
+                  );
+                }
+                return UserAccountsDrawerHeader(
+                  accountName: Text(
+                    "userModel.name",
+                    style: TextStyle(fontSize: 22),
+                  ),
+                  accountEmail: Text(
+                    "userModel.email",
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  currentAccountPicture: CircleAvatar(
+                    radius: 30.0,
+                    backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
+                    backgroundColor: Colors.transparent,
+                  ),
+                );
+              }
+            }),
             ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text("Perfil"),
