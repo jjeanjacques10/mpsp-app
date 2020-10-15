@@ -39,11 +39,10 @@ Card cardService(BuildContext context, Size size, String titulo, String img,
         ),
       ],
     ),
-    SizedBox(height: 10),
   ];
 
   return Card(
-    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
     elevation: 2,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(1.0),

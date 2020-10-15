@@ -216,12 +216,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     Observer(builder: (ctx) {
                       if (!homeScreenStore.isLoading) {
                         return SizedBox(
-                          height: 200,
+                          height: 450,
                           child: GridView.builder(
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
-                                childAspectRatio: 3 / 2,
+                                childAspectRatio: 4 / 2,
                               ),
                               itemCount: homeScreenStore.filtered == null
                                   ? 0
@@ -229,7 +229,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (BuildContext ctx, int index) {
                                 ServiceModel serviceModel =
                                     homeScreenStore.filtered[index];
-                                return cardService(context, Size(11, 11),
+                                return cardService(context, Size(0, 11),
                                     serviceModel.name, 'img', 'desc', 'url');
                               }),
                         );
@@ -237,13 +237,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Center(child: CircularProgressIndicator());
                       }
                     }),
-                    Container(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: FlatButton(
-                        onPressed: () {},
-                        child: Icon(Icons.keyboard_arrow_down, size: 70),
-                      ),
-                    )
                   ],
                 ),
               ),
