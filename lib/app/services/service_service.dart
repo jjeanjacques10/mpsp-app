@@ -9,12 +9,11 @@ class ServiceService {
         res.data.map<ServiceModel>((c) => ServiceModel.fromJson(c)).toList());
   }
 
-  Future<List<ServiceModel>> getMessagesUserById(int id, {int userId}) async {
+  Future<List<ServiceModel>> getMessagesUserById(int id) async {
     final dio = CustomDio.withAuthentication().instance;
 
-    return dio
-        .get('/service?userId=' + (userId != null ? userId.toString() : ''))
-        .then((res) => res.data
+    return dio.get('/service/' + (id != null ? id.toString() : '')).then(
+        (res) => res.data
             .map<ServiceModel>((c) => ServiceModel.fromJson(c))
             .toList());
   }

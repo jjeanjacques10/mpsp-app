@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mpsp_app/app/components/cardService.dart';
 import 'package:mpsp_app/app/model/User.dart';
+import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/stores/home_screen_store.dart';
 
@@ -213,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 10),
                     Observer(builder: (ctx) {
-                      if (homeScreenStore.isLoading) {
+                      if (!homeScreenStore.isLoading) {
                         return SizedBox(
                           height: 200,
                           child: GridView.builder(
@@ -226,14 +227,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ? 0
                                   : homeScreenStore.filtered.length,
                               itemBuilder: (BuildContext ctx, int index) {
-                                List.generate(5, (index) {
-                                  return cardService(context, Size(11, 11),
-                                      'titulo', 'img', 'desc', 'url');
-                                });
+                                ServiceModel serviceModel =
+                                    homeScreenStore.filtered[index];
+                                return cardService(context, Size(11, 11),
+                                    serviceModel.name, 'img', 'desc', 'url');
                               }),
                         );
                       } else {
-                        return CircularProgressIndicator();
+                        return Center(child: CircularProgressIndicator());
                       }
                     }),
                     Container(

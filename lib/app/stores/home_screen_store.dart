@@ -41,7 +41,7 @@ abstract class _HomeScreenStoreBase with Store {
 
   @action
   findAllCourses() async {
-    init();
+    await init();
   }
 
   @action
