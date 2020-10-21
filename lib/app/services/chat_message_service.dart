@@ -1,3 +1,4 @@
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/core/custom_dio.dart';
 
@@ -13,7 +14,10 @@ class ChatMessageService {
     final dio = CustomDio.withAuthentication().instance;
 
     return dio
-        .get('/conversation/' + (id != null ? id.toString() : ''))
+        .get(
+          '/conversation/' + (id != null ? id.toString() : ''),
+          options: buildCacheOptions(Duration(days: 5)),
+        )
         .then((res) => ChatMessage.fromJson(res.data));
   }
 
