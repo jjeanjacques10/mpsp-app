@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: SingleChildScrollView(
           primary: false,
           child: Column(
