@@ -1,3 +1,4 @@
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mpsp_app/app/core/custom_dio.dart';
 import 'package:mpsp_app/app/model/service.dart';
 
@@ -12,8 +13,12 @@ class ServiceService {
   Future<List<ServiceModel>> getMessagesUserById(int id) async {
     final dio = CustomDio.withAuthentication().instance;
 
-    return dio.get('/service/' + (id != null ? id.toString() : '')).then(
-        (res) => res.data
+    return dio
+        .get(
+          '/service/' + (id != null ? id.toString() : ''),
+          options: buildCacheOptions(Duration(days: 7)),
+        )
+        .then((res) => res.data
             .map<ServiceModel>((c) => ServiceModel.fromJson(c))
             .toList());
   }

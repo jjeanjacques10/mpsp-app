@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 
 class CustomDio {
@@ -16,6 +17,10 @@ class CustomDio {
         onResponse: _onResponse,
         onError: _onError,
       ));
+    _dio
+      ..interceptors.add(DioCacheManager(
+              CacheConfig(baseUrl: 'https://mpsp-wisen.herokuapp.com'))
+          .interceptor);
   }
 
   BaseOptions _options = BaseOptions(
