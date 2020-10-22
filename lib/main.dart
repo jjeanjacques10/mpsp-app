@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
 import 'package:mpsp_app/app/screens/login_screen.dart';
 import 'package:mpsp_app/app/screens/profile_screen.dart';
 import 'package:mpsp_app/app/screens/register_screen.dart';
-import 'package:mpsp_app/app/screens/chat_screen.dart';
-import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/screens/watson_chat_screen.dart';
 
 void main() {

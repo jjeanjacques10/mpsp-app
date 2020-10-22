@@ -28,14 +28,16 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             Observer(builder: (ctx) {
-              if (homeScreenStore.isLoading) {
+              if (!homeScreenStore.isLoading) {
                 return UserAccountsDrawerHeader(
                   accountName: Text(
-                    homeScreenStore.name,
+                    homeScreenStore.name != null ? homeScreenStore.name : '',
                     style: TextStyle(fontSize: 22),
                   ),
                   accountEmail: Text(
-                    "userModel.email",
+                    homeScreenStore.user.email != null
+                        ? homeScreenStore.user.email
+                        : '',
                     style: TextStyle(fontSize: 15),
                   ),
                   currentAccountPicture: CircleAvatar(
@@ -110,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.pushNamed(context, '/chat',
-                arguments: UserModel(id: 1, name: homeScreenStore.name));
+                arguments: homeScreenStore.user);
+
             debugPrint('Entrar no chat');
           },
           child: Icon(

@@ -29,6 +29,13 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
   String get name => (_$nameComputed ??=
           Computed<String>(() => super.name, name: '_HomeScreenStoreBase.name'))
       .value;
+  Computed<UserModel> _$userModelComputed;
+
+  @override
+  UserModel get userModel =>
+      (_$userModelComputed ??= Computed<UserModel>(() => super.userModel,
+              name: '_HomeScreenStoreBase.userModel'))
+          .value;
 
   final _$filtroAtom = Atom(name: '_HomeScreenStoreBase.filtro');
 
@@ -90,6 +97,21 @@ mixin _$HomeScreenStore on _HomeScreenStoreBase, Store {
     });
   }
 
+  final _$userAtom = Atom(name: '_HomeScreenStoreBase.user');
+
+  @override
+  UserModel get user {
+    _$userAtom.reportRead();
+    return super.user;
+  }
+
+  @override
+  set user(UserModel value) {
+    _$userAtom.reportWrite(value, super.user, () {
+      super.user = value;
+    });
+  }
+
   final _$findAllCoursesAsyncAction =
       AsyncAction('_HomeScreenStoreBase.findAllCourses');
 
@@ -119,9 +141,11 @@ filtro: ${filtro},
 listaService: ${listaService},
 isLoading: ${isLoading},
 nome: ${nome},
+user: ${user},
 filtered: ${filtered},
 quantidade: ${quantidade},
-name: ${name}
+name: ${name},
+userModel: ${userModel}
     ''';
   }
 }

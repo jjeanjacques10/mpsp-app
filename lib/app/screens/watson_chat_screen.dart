@@ -17,8 +17,10 @@ class WatsonChatScreen extends StatefulWidget {
 class _WatsonChatScreenState extends State<WatsonChatScreen> {
   final _messageList = <Messages>[];
   final _controllerText = new TextEditingController();
+  final idConversation = 1;
 
-  int i = 1;
+  var i = 1;
+
   ChatMessageService chatMessageService = ChatMessageService();
 
   WatsonAssistantV2Credential credential = WatsonAssistantV2Credential(
@@ -38,6 +40,11 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   void _callWatsonAssistant() async {
     watsonAssistantResponse = await watsonAssistant.sendMessage(
         _controllerText.text, watsonAssistantContext);
+    Messages message = new Messages(
+        message: watsonAssistantResponse.resultText,
+        ownerMessage: 'Maria Paula',
+        idConversation: idConversation);
+    await chatMessageService.sendMessage(message);
     setState(() {
       _addMessage(
           content: watsonAssistantResponse.resultText,
@@ -52,7 +59,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
     super.initState();
     watsonAssistant =
         WatsonAssistantApiV2(watsonAssistantCredential: credential);
-    _callWatsonAssistant();
   }
 
   @override
@@ -157,6 +163,11 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   // Envia uma mensagem com o padrão a direita
   void _sendMessage({String content, UserModel userModel}) {
+    Messages message = new Messages(
+        message: _controllerText.text,
+        ownerMessage: userModel.name,
+        idConversation: idConversation);
+    chatMessageService.sendMessage(message);
     _addMessage(
         content: content, type: ChatMessageType.sent, userModel: userModel);
     _callWatsonAssistant();
@@ -186,7 +197,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   void _populate(UserModel userModel) {
     //chatMessageService.getMessagesUserById(userModel.id).then((messages) {
-    chatMessageService.getMessagesUserById(1).then((messages) {
+    chatMessageService.getMessagesUserById(idConversation).then((messages) {
       print(messages);
       for (var message in messages.messages) {
         if (messages != null) {

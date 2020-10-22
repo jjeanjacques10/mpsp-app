@@ -18,7 +18,7 @@ Card cardService(BuildContext context, Size size, String titulo, String img,
                     titulo,
                     textAlign: TextAlign.center,
                     overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
+                    maxLines: null,
                     style: TextStyle(
                       color: Color(0x003B50).withOpacity(1),
                       fontSize: 17,

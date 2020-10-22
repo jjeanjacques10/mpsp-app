@@ -1,3 +1,4 @@
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:mpsp_app/app/core/custom_dio.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +19,9 @@ class UserService {
         if (token != null) {
           SharedPreferences prefs = await SharedPreferences.getInstance();
           prefs.setString('token', token);
+          prefs.setString('id', res.data['user']['id'].toString());
+          prefs.setString('name', res.data['user']['name']);
+          prefs.setString('email', res.data['user']['email']);
           return true;
         }
 
@@ -30,6 +34,17 @@ class UserService {
       print(err);
       return Future.value(false);
     }
+  }
+
+  Future<UserModel> findById(int id) async {
+    final dio = CustomDio.withAuthentication().instance;
+
+    return dio
+        .get(
+          '/user/$id',
+          options: buildCacheOptions(Duration(days: 7)),
+        )
+        .then((res) => UserModel.fromJson(res.data));
   }
 
   Future<String> getToken() async {

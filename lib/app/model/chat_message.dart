@@ -48,13 +48,16 @@ class Messages {
   String message;
   String ownerMessage;
   String createdAt;
+  int idConversation;
 
-  Messages({this.message, this.ownerMessage, this.createdAt});
+  Messages(
+      {this.message, this.ownerMessage, this.createdAt, this.idConversation});
 
   Messages.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     ownerMessage = json['owner_message'];
     createdAt = json['created_at'];
+    idConversation = json['id_conversation'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +65,7 @@ class Messages {
     data['message'] = this.message;
     data['owner_message'] = this.ownerMessage;
     data['created_at'] = this.createdAt;
+    data['id_conversation'] = this.idConversation;
     return data;
   }
 }

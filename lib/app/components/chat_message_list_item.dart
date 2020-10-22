@@ -26,7 +26,7 @@ class MessagesListItem extends StatelessWidget {
         margin: EdgeInsets.only(left: 50),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.blue[100],
+          color: Colors.red[100],
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(
             Radius.circular(17.0),

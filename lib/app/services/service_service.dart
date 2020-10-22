@@ -16,7 +16,7 @@ class ServiceService {
     return dio
         .get(
           '/service/' + (id != null ? id.toString() : ''),
-          options: buildCacheOptions(Duration(days: 7)),
+          options: buildCacheOptions(Duration(days: 7), forceRefresh: true),
         )
         .then((res) => res.data
             .map<ServiceModel>((c) => ServiceModel.fromJson(c))
