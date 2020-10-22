@@ -1,43 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app/methods/laucherURL.dart';
 
 Card cardService(BuildContext context, Size size, String titulo, String img,
     String desc, String url) {
   var item = <Widget>[
     SizedBox(height: 25),
-    Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            GestureDetector(
-              child: Wrap(
-                alignment: WrapAlignment.center,
-                children: <Widget>[
-                  Text(
-                    titulo,
-                    textAlign: TextAlign.center,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: null,
-                    style: TextStyle(
-                      color: Color(0x003B50).withOpacity(1),
-                      fontSize: 17,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  "/web",
-                  arguments: url,
-                );
-              },
-            ),
-          ],
+    GestureDetector(
+      child: Center(
+        child: Text(
+          titulo,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          softWrap: true,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.grey[800],
+            fontSize: 17,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ],
+      ),
+      onTap: () => launchURL(url),
     ),
   ];
 
@@ -48,7 +31,6 @@ Card cardService(BuildContext context, Size size, String titulo, String img,
       borderRadius: BorderRadius.circular(1.0),
     ),
     child: Container(
-      //height: size.height * .19,
       child: Stack(
         children: <Widget>[
           Positioned(

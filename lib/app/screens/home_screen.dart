@@ -223,6 +223,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         return SizedBox(
                           height: 450,
                           child: GridView.builder(
+                              physics:
+                                  ScrollPhysics(), // to disable GridView's scrolling
+                              shrinkWrap: true,
                               gridDelegate:
                                   SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
@@ -234,8 +237,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               itemBuilder: (BuildContext ctx, int index) {
                                 ServiceModel serviceModel =
                                     homeScreenStore.filtered[index];
-                                return cardService(context, Size(0, 11),
-                                    serviceModel.name, 'img', 'desc', 'url');
+                                return cardService(
+                                    context,
+                                    Size(0, 11),
+                                    serviceModel.name,
+                                    'img',
+                                    'desc',
+                                    serviceModel.url);
                               }),
                         );
                       } else {
