@@ -1,4 +1,4 @@
-package com.example.mpsp_app
+package com.mpsp.jjean
 
 import io.flutter.embedding.android.FlutterActivity
 

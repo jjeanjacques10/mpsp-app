@@ -1,9 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mpsp_app/app/components/card_service.dart';
-import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/stores/home_screen_store.dart';
@@ -155,13 +154,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Text(
-                "NOME PERFIL",
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              Observer(builder: (ctx) {
+                if (!homeScreenStore.isLoading) {
+                  return Text(
+                    homeScreenStore.user.name,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                } else {
+                  return Text(
+                    "-",
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }
+              }),
               SizedBox(height: 30),
               Container(
                 padding: EdgeInsets.all(5),
