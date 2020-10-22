@@ -10,14 +10,14 @@ class MessagesListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return messages.ownerMessage != 'Alice'
+    return messages.ownerMessage != 'Maria Paula'
         ? _showSentMessage()
         : _showReceivedMessage();
   }
 
   Widget _showSentMessage({EdgeInsets padding, TextAlign textAlign}) {
     return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(64.0, 0.0, 8.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 8.0, 0.0),
       trailing: CircleAvatar(
         backgroundImage: NetworkImage(
             'https://avatars3.githubusercontent.com/u/32225403?s=400&u=9c1a04035cc7b4e8749679fd87d0732c26a3dcd4&v=4'),
