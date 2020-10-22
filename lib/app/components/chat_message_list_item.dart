@@ -17,7 +17,7 @@ class MessagesListItem extends StatelessWidget {
 
   Widget _showSentMessage({EdgeInsets padding, TextAlign textAlign}) {
     return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(14.0, 0.0, 8.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(45.0, 0.0, 0.0, 0.0),
       trailing: CircleAvatar(
         backgroundImage: NetworkImage(
             'https://avatars3.githubusercontent.com/u/32225403?s=400&u=9c1a04035cc7b4e8749679fd87d0732c26a3dcd4&v=4'),
@@ -35,6 +35,7 @@ class MessagesListItem extends StatelessWidget {
         child: Text(
           messages.message,
           textAlign: TextAlign.right,
+          style: TextStyle(fontSize: 15.2),
         ),
       ),
     );
@@ -42,14 +43,14 @@ class MessagesListItem extends StatelessWidget {
 
   Widget _showReceivedMessage() {
     return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(8.0, 0.0, 64.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 45.0, 0.0),
       leading: CircleAvatar(
-        backgroundImage: AssetImage('assets/images/mpsp-logo.png'),
+        backgroundImage: AssetImage('assets/images/maria-paula.jpg'),
       ),
       title: Text(
         messages.message,
         textAlign: TextAlign.left,
-        style: TextStyle(fontWeight: FontWeight.w500),
+        style: TextStyle(fontSize: 15.2),
       ),
     );
   }

@@ -178,7 +178,8 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
       {String content, ChatMessageType type, UserModel userModel}) {
     var message = Messages(
       message: content,
-      ownerMessage: type == ChatMessageType.sent ? userModel.name : 'Alice',
+      ownerMessage:
+          type == ChatMessageType.sent ? userModel.name : 'Maria Paula',
     );
     print(message);
 

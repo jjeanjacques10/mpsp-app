@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: <Widget>[
                     Container(
                       child: Image.asset('assets/images/mpsp-logo.png'),
-                      height: 150,
+                      height: 100,
                     ),
                     SizedBox(width: 15),
                     TextFormField(
