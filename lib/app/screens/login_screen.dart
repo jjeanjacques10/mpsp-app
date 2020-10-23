@@ -6,6 +6,31 @@ import 'package:mpsp_app/app/components/show_alert_dialog.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/utils/app_theme.dart';
+import 'package:splashscreen/splashscreen.dart';
+
+class FlashScreen extends StatefulWidget {
+  @override
+  FlashScreenState createState() => new FlashScreenState();
+}
+
+class FlashScreenState extends State<FlashScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        seconds: 5,
+        navigateAfterSeconds: new LoginScreen(),
+        /* title: new Text(
+          'Bem vindo ao MPSP Digital',
+          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+        ), */
+        image: new Image.asset('assets/images/mpsp-digital-logo-branco.png'),
+        backgroundColor: Color.fromRGBO(197, 23, 24, 1),
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        onClick: () => print("Flutter Egypt"),
+        loaderColor: Colors.white);
+  }
+}
 
 class LoginScreen extends StatefulWidget {
   @override
