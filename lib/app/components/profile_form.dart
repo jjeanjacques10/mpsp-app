@@ -1,9 +1,11 @@
+import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
 import 'package:validadores/ValidarEmail.dart';
-import 'package:cpfcnpj/cpfcnpj.dart';
 
 class ProfileForm extends StatefulWidget {
-  const ProfileForm({Key key}) : super(key: key);
+  const ProfileForm({
+    Key key,
+  }) : super(key: key);
 
   @override
   _ProfileFormState createState() => _ProfileFormState();
@@ -26,7 +28,7 @@ class _ProfileFormState extends State<ProfileForm> {
               labelText: 'Nome',
               hintText: 'ex. Maria Paula da Silva Pereira',
             ),
-            validator: (String value) {
+            validator: (value) {
               if (value.trim().isEmpty) {
                 return 'Nome é obrigatório';
               }
@@ -36,7 +38,7 @@ class _ProfileFormState extends State<ProfileForm> {
             decoration: const InputDecoration(
                 labelText: 'Localização ',
                 hintText: 'ex. São Paulo, SP - Brasil'),
-            validator: (String value) {
+            validator: (value) {
               if (value.trim().isEmpty) {
                 return 'Localização é obrigatória';
               }
@@ -46,10 +48,10 @@ class _ProfileFormState extends State<ProfileForm> {
             readOnly: true,
             decoration: const InputDecoration(
                 labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
-            validator: (String value) {
+            validator: (value) {
               if (value.trim().isEmpty) {
                 return 'CPF é obrigatório';
-              }else if(!CPF.isValid(value)){
+              } else if (!CPF.isValid(value)) {
                 return 'CPF inválido';
               }
             },
@@ -59,7 +61,7 @@ class _ProfileFormState extends State<ProfileForm> {
               labelText: 'Telefone',
               hintText: 'ex. (11) 98765-4321',
             ),
-            validator: (String value) {
+            validator: (value) {
               final pattern = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
               final regExp = RegExp(pattern);
 
@@ -74,9 +76,7 @@ class _ProfileFormState extends State<ProfileForm> {
             obscureText: false,
             //style: style,
             decoration: const InputDecoration(
-              labelText: 'Email',
-              hintText: 'ex. maria.paula@mpsp.br'
-            ),
+                labelText: 'Email', hintText: 'ex. maria.paula@mpsp.br'),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
               if (value.isEmpty) {
@@ -97,7 +97,7 @@ class _ProfileFormState extends State<ProfileForm> {
               labelText: 'Senha',
             ),
             validator: (String value) {
-              _password=value;
+              _password = value;
               if (value.trim().isEmpty) {
                 return 'Senha é obrigatória';
               }
@@ -117,7 +117,6 @@ class _ProfileFormState extends State<ProfileForm> {
             },
             obscureText: true,
           ),
-          
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
             child: Center(

@@ -144,6 +144,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
             ListTile(
+                leading: Icon(Icons.announcement_rounded),
+                title: Text("Sobre"),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/about',
+                    //arguments: userModel,
+                  );
+                }),
+            ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text("Sair"),
                 onTap: () {
@@ -161,15 +171,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       IconButton(
                         icon: Icon(Icons.email, color: Colors.grey),
-                        onPressed: () => launchURL('http://www.mpsp.mp.br/portal/page/portal/Promotorias_de_Justica/emails_promotorias'),
+                        onPressed: () => launchURL(
+                            'http://www.mpsp.mp.br/portal/page/portal/Promotorias_de_Justica/emails_promotorias'),
                       ),
                       IconButton(
                         icon: Icon(Icons.phone, color: Colors.grey),
-                        onPressed: () => launchURL('http://www.mpsp.mp.br/portal/page/portal/lista_telefonica'),
+                        onPressed: () => launchURL(
+                            'http://www.mpsp.mp.br/portal/page/portal/lista_telefonica'),
                       ),
                       IconButton(
                         icon: Icon(Icons.headset_mic, color: Colors.grey),
-                        onPressed: () => launchURL('https://sis.mpsp.mp.br/atendimentocidadao/Ouvidoria/Manifestacao/EscolherTipoDeIdentificacao'),
+                        onPressed: () => launchURL(
+                            'https://sis.mpsp.mp.br/atendimentocidadao/Ouvidoria/Manifestacao/EscolherTipoDeIdentificacao'),
                       ),
                     ],
                   ),
@@ -337,57 +350,58 @@ class _HomeScreenState extends State<HomeScreen> {
                       } else {
                         //return Center(child: CircularProgressIndicator());
                         return SizedBox(
-                            height: 450,
-                            child: GridView.builder(
-                                physics:
-                                    ScrollPhysics(), // to disable GridView's scrolling
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  childAspectRatio: 4 / 2,
-                                ),
-                                itemCount: 10,
-                                itemBuilder: (BuildContext ctx, int index) {
-                                  return Card(
-                                    margin: EdgeInsets.symmetric(
-                                        vertical: 5, horizontal: 5),
-                                    elevation: 2,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(1.0),
-                                    ),
-                                    child: Container(
-                                      child: Stack(
-                                        children: <Widget>[
-                                          Positioned(
-                                            child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(29),
-                                              ),
-                                              child: Center(
-                                                child: Shimmer.fromColors(
-                                                  highlightColor:
-                                                      _highLightColor,
-                                                  baseColor: _baseColor,
-                                                  period: _duration,
-                                                  child: Container(
-                                                    height: 25,
-                                                    width: 100,
-                                                    color: _highLightColor,
-                                                  ),
+                          height: 450,
+                          child: GridView.builder(
+                              physics:
+                                  ScrollPhysics(), // to disable GridView's scrolling
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 4 / 2,
+                              ),
+                              itemCount: 10,
+                              itemBuilder: (BuildContext ctx, int index) {
+                                return Card(
+                                  margin: EdgeInsets.symmetric(
+                                      vertical: 5, horizontal: 5),
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(1.0),
+                                  ),
+                                  child: Container(
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Positioned(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(29),
+                                            ),
+                                            child: Center(
+                                              child: Shimmer.fromColors(
+                                                highlightColor: _highLightColor,
+                                                baseColor: _baseColor,
+                                                period: _duration,
+                                                child: Container(
+                                                  height: 25,
+                                                  width: 100,
+                                                  color: _highLightColor,
                                                 ),
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  );
-                                }));
+                                  ),
+                                );
+                              }),
+                        );
                       }
                     }),
+                    SizedBox(height: 50),
                   ],
                 ),
               ),

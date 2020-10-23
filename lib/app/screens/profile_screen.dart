@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mpsp_app/app/components/contact_channels.dart';
+import 'package:mpsp_app/app/model/user.dart';
 
 import '../components/profile_form.dart';
 
@@ -15,6 +15,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    UserModel userModel = ModalRoute.of(context).settings.arguments;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Perfil'),
