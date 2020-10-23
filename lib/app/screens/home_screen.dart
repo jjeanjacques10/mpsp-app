@@ -6,6 +6,7 @@ import 'package:mpsp_app/app/components/card_service.dart';
 import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/stores/home_screen_store.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
   UserService userService = UserService();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   HomeScreenStore homeScreenStore;
+  static const _highLightColor = Color.fromRGBO(64, 75, 96, .1);
+  static const _baseColor = Colors.black;
+  static const _duration = Duration(milliseconds: 4000);
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +52,25 @@ class _HomeScreenState extends State<HomeScreen> {
               } else {
                 if (homeScreenStore.name.isEmpty) {
                   return UserAccountsDrawerHeader(
-                    accountName: Text(
-                      "name",
-                      style: TextStyle(fontSize: 22),
+                    accountName: Shimmer.fromColors(
+                      highlightColor: _highLightColor,
+                      baseColor: _baseColor,
+                      period: _duration,
+                      child: Container(
+                        height: 25,
+                        width: 170,
+                        color: _highLightColor,
+                      ),
                     ),
-                    accountEmail: Text(
-                      "email",
-                      style: TextStyle(fontSize: 15),
+                    accountEmail: Shimmer.fromColors(
+                      highlightColor: _highLightColor,
+                      baseColor: _baseColor,
+                      period: _duration,
+                      child: Container(
+                        height: 25,
+                        width: 100,
+                        color: _highLightColor,
+                      ),
                     ),
                     currentAccountPicture: CircleAvatar(
                       radius: 30.0,
@@ -64,13 +80,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
                 return UserAccountsDrawerHeader(
-                  accountName: Text(
-                    "name",
-                    style: TextStyle(fontSize: 22),
+                  accountName: Shimmer.fromColors(
+                    highlightColor: _highLightColor,
+                    baseColor: _baseColor,
+                    period: _duration,
+                    child: Container(
+                      height: 25,
+                      width: 170,
+                      color: _highLightColor,
+                    ),
                   ),
-                  accountEmail: Text(
-                    "email",
-                    style: TextStyle(fontSize: 15),
+                  accountEmail: Shimmer.fromColors(
+                    highlightColor: _highLightColor,
+                    baseColor: _baseColor,
+                    period: _duration,
+                    child: Container(
+                      height: 25,
+                      width: 100,
+                      color: _highLightColor,
+                    ),
                   ),
                   currentAccountPicture: CircleAvatar(
                     radius: 30.0,
@@ -102,11 +130,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     '/history',
                     //arguments: userModel,
-                  ).then((value) {
-                    setState(() {
-                      // userModel = value;
-                    });
-                  });
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.app_settings_alt_rounded),
+                title: Text("Acessibilidade"),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/accessibility',
+                    //arguments: userModel,
+                  );
                 }),
             ListTile(
                 leading: Icon(Icons.exit_to_app),
@@ -177,11 +211,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 } else {
-                  return Text(
-                    "-",
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+                  return Shimmer.fromColors(
+                    highlightColor: _highLightColor,
+                    baseColor: _baseColor,
+                    period: _duration,
+                    child: Container(
+                      height: 25,
+                      width: 100,
+                      color: _highLightColor,
                     ),
                   );
                 }
@@ -271,7 +308,57 @@ class _HomeScreenState extends State<HomeScreen> {
                               }),
                         );
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        //return Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                            height: 450,
+                            child: GridView.builder(
+                                physics:
+                                    ScrollPhysics(), // to disable GridView's scrolling
+                                shrinkWrap: true,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  childAspectRatio: 4 / 2,
+                                ),
+                                itemCount: 10,
+                                itemBuilder: (BuildContext ctx, int index) {
+                                  return Card(
+                                    margin: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 5),
+                                    elevation: 2,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(1.0),
+                                    ),
+                                    child: Container(
+                                      child: Stack(
+                                        children: <Widget>[
+                                          Positioned(
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(29),
+                                              ),
+                                              child: Center(
+                                                child: Shimmer.fromColors(
+                                                  highlightColor:
+                                                      _highLightColor,
+                                                  baseColor: _baseColor,
+                                                  period: _duration,
+                                                  child: Container(
+                                                    height: 25,
+                                                    width: 100,
+                                                    color: _highLightColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }));
                       }
                     }),
                   ],

@@ -37,9 +37,10 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   WatsonAssistantContext watsonAssistantContext =
       WatsonAssistantContext(context: {});
 
-  void _callWatsonAssistant() async {
-    watsonAssistantResponse = await watsonAssistant.sendMessage(
-        _controllerText.text, watsonAssistantContext);
+  void _callWatsonAssistant(String textMessage) async {
+    watsonAssistantResponse =
+        await watsonAssistant.sendMessage(textMessage, watsonAssistantContext);
+
     Messages message = new Messages(
         message: watsonAssistantResponse.resultText,
         ownerMessage: 'Maria Paula',
@@ -51,7 +52,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
           type: ChatMessageType.received);
     });
     watsonAssistantContext = watsonAssistantResponse.context;
-    _controllerText.clear();
   }
 
   @override
@@ -167,14 +167,19 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   // Envia uma mensagem com o padrão a direita
   void _sendMessage({String content, UserModel userModel}) {
+    String textMessage = _controllerText.text;
+    _controllerText.clear();
+
     Messages message = new Messages(
         message: _controllerText.text,
         ownerMessage: userModel.name,
         idConversation: idConversation);
     chatMessageService.sendMessage(message);
+
     _addMessage(
         content: content, type: ChatMessageType.sent, userModel: userModel);
-    _callWatsonAssistant();
+
+    _callWatsonAssistant(textMessage);
   }
 
   // Adiciona uma mensagem na lista de mensagens

@@ -26,16 +26,16 @@ class MessagesListItem extends StatelessWidget {
         margin: EdgeInsets.only(left: 50),
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         decoration: BoxDecoration(
-          color: Colors.red[100],
+          color: Color.fromRGBO(251, 65, 65, 1),
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(
-            Radius.circular(17.0),
+            Radius.circular(10.0),
           ),
         ),
         child: Text(
           messages.message,
           textAlign: TextAlign.right,
-          style: TextStyle(fontSize: 15.2),
+          style: TextStyle(fontSize: 15.2, color: Colors.white),
         ),
       ),
     );
@@ -43,7 +43,7 @@ class MessagesListItem extends StatelessWidget {
 
   Widget _showReceivedMessage() {
     return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 45.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 65.0, 0.0),
       leading: CircleAvatar(
         backgroundImage: AssetImage('assets/images/maria-paula.jpg'),
       ),
@@ -52,6 +52,12 @@ class MessagesListItem extends StatelessWidget {
         textAlign: TextAlign.left,
         style: TextStyle(fontSize: 15.2),
       ),
+      subtitle: Container(
+          alignment: Alignment.topRight,
+          child: Icon(
+            Icons.music_note,
+            color: Colors.grey[700],
+          )),
     );
   }
 }
