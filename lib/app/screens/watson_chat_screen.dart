@@ -75,7 +75,11 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
               Icons.restore,
             ),
             onPressed: () {
-              watsonAssistantContext.resetContext();
+              Navigator.pushNamed(
+                context,
+                "/history",
+              );
+              //watsonAssistantContext.resetContext();
             },
           )
         ],

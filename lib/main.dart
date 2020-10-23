@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mpsp_app/app/screens/historic_screen.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
 import 'package:mpsp_app/app/screens/login_screen.dart';
 import 'package:mpsp_app/app/screens/profile_screen.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginScreen(),
         "/profile": (context) => ProfileScreen(),
         "/chat": (context) => WatsonChatScreen(),
+        "/history": (context) => HistoricScreen(),
       },
     );
   }

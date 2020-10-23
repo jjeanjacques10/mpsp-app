@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   currentAccountPicture: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
+                    backgroundImage: AssetImage("assets/images/avatar.png"),
                     backgroundColor: Colors.transparent,
                   ),
                 );
@@ -49,33 +49,32 @@ class _HomeScreenState extends State<HomeScreen> {
                 if (homeScreenStore.name.isEmpty) {
                   return UserAccountsDrawerHeader(
                     accountName: Text(
-                      "userModel.name",
+                      "name",
                       style: TextStyle(fontSize: 22),
                     ),
                     accountEmail: Text(
-                      "userModel.email",
+                      "email",
                       style: TextStyle(fontSize: 15),
                     ),
                     currentAccountPicture: CircleAvatar(
                       radius: 30.0,
-                      backgroundImage:
-                          AssetImage("assets/images/mpsp-logo.png"),
+                      backgroundImage: AssetImage("assets/images/avatar.png"),
                       backgroundColor: Colors.transparent,
                     ),
                   );
                 }
                 return UserAccountsDrawerHeader(
                   accountName: Text(
-                    "userModel.name",
+                    "name",
                     style: TextStyle(fontSize: 22),
                   ),
                   accountEmail: Text(
-                    "userModel.email",
+                    "email",
                     style: TextStyle(fontSize: 15),
                   ),
                   currentAccountPicture: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: AssetImage("assets/images/mpsp-logo.png"),
+                    backgroundImage: AssetImage("assets/images/avatar.png"),
                     backgroundColor: Colors.transparent,
                   ),
                 );
@@ -88,6 +87,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(
                     context,
                     '/profile',
+                    //arguments: userModel,
+                  ).then((value) {
+                    setState(() {
+                      // userModel = value;
+                    });
+                  });
+                }),
+            ListTile(
+                leading: Icon(Icons.restore),
+                title: Text("Histórico de atendimentos"),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/history',
                     //arguments: userModel,
                   ).then((value) {
                     setState(() {
