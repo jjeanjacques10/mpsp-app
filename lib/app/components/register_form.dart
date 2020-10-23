@@ -1,8 +1,6 @@
-import 'dart:io';
-
+import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
 import 'package:validadores/ValidarEmail.dart';
-import 'package:cpfcnpj/cpfcnpj.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key key}) : super(key: key);
@@ -78,7 +76,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 labelText: 'Email', hintText: 'ex. maria.paula@mpsp.br'),
             keyboardType: TextInputType.emailAddress,
             validator: (value) {
-               if (value.isEmpty) {
+              if (value.isEmpty) {
                 return ' Email é obrigatório.';
               } else if (value.length < 12) {
                 return 'O email no mínimo 12 caracteres';
