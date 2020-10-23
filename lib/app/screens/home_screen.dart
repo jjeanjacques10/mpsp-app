@@ -7,6 +7,7 @@ import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:mpsp_app/app/stores/home_screen_store.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:mpsp_app/app/methods/laucherURL.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -133,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
             ListTile(
-                leading: Icon(Icons.app_settings_alt_rounded),
+                leading: Icon(Icons.accessibility),
                 title: Text("Acessibilidade"),
                 onTap: () {
                   Navigator.pushNamed(
@@ -148,7 +149,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   userService.logout();
                   Navigator.pushNamed(context, '/login');
-                })
+                }),
+            SizedBox(height: 320),
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  width: 200,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.email, color: Colors.grey),
+                        onPressed: () => launchURL('http://www.mpsp.mp.br/portal/page/portal/Promotorias_de_Justica/emails_promotorias'),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.phone, color: Colors.grey),
+                        onPressed: () => launchURL('http://www.mpsp.mp.br/portal/page/portal/lista_telefonica'),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.headset_mic, color: Colors.grey),
+                        onPressed: () => launchURL('https://sis.mpsp.mp.br/atendimentocidadao/Ouvidoria/Manifestacao/EscolherTipoDeIdentificacao'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
