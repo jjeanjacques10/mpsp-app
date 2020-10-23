@@ -168,13 +168,13 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   // Envia uma mensagem com o padrão a direita
   void _sendMessage({String content, UserModel userModel}) {
     String textMessage = _controllerText.text;
-    _controllerText.clear();
 
     Messages message = new Messages(
         message: _controllerText.text,
         ownerMessage: userModel.name,
         idConversation: idConversation);
     chatMessageService.sendMessage(message);
+    _controllerText.clear();
 
     _addMessage(
         content: content, type: ChatMessageType.sent, userModel: userModel);
