@@ -123,6 +123,13 @@ class _MessagesListItemState extends State<MessagesListItem> {
           style: TextStyle(fontSize: 15.2, color: Colors.white),
         ),
       ),
+      subtitle: Container(
+        child: Text(
+          widget.messages.createdAt,
+          textAlign: TextAlign.right,
+          style: TextStyle(fontSize: 10),
+        ),
+      ),
     );
   }
 
@@ -140,6 +147,11 @@ class _MessagesListItemState extends State<MessagesListItem> {
       trailing: Icon(
         Icons.hearing_rounded,
         color: Colors.grey[700],
+      ),
+      subtitle: Text(
+        widget.messages.createdAt,
+        textAlign: TextAlign.left,
+        style: TextStyle(fontSize: 10),
       ),
       onTap: () {
         _onChange(widget.messages.message);

@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(
                     context,
                     '/profile',
-                    //arguments: userModel,
+                    arguments: homeScreenStore.userModel,
                   ).then((value) {
                     setState(() {
                       // userModel = value;
@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   userService.logout();
                   Navigator.pushNamed(context, '/login');
                 }),
-            SizedBox(height: 320),
+            SizedBox(height: 260),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
