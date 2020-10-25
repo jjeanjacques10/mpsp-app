@@ -1,5 +1,6 @@
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:validadores/ValidarEmail.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -13,6 +14,9 @@ class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _password = "";
   bool _agreedToTOS = true;
+
+  var cpfMask = new MaskTextInputFormatter(
+      mask: '##.###.###.#-##', filter: {"#": RegExp(r'[0-9]')});
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +47,7 @@ class _RegisterFormState extends State<RegisterForm> {
             },
           ),
           TextFormField(
+            inputFormatters: [cpfMask],
             decoration: const InputDecoration(
                 labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
             validator: (String value) {
