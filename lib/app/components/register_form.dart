@@ -1,6 +1,9 @@
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:mpsp_app/app/components/show_alert_dialog.dart';
+import 'package:mpsp_app/app/model/user.dart';
+import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:validadores/ValidarEmail.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -12,8 +15,12 @@ class RegisterForm extends StatefulWidget {
 
 class _RegisterFormState extends State<RegisterForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String selectedCityField = "São Paulo";
   String _password = "";
   bool _agreedToTOS = true;
+  UserService userService = new UserService();
+  UserModel userModel = new UserModel();
+  TextEditingController dateCtl = TextEditingController();
 
   var cpfMask = new MaskTextInputFormatter(
       mask: '##.###.###.#-##', filter: {"#": RegExp(r'[0-9]')});
@@ -35,16 +42,58 @@ class _RegisterFormState extends State<RegisterForm> {
                 return 'Nome é obrigatório';
               }
             },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Localização ',
-                hintText: 'ex. São Paulo, SP - Brasil'),
-            validator: (String value) {
-              if (value.trim().isEmpty) {
-                return 'Localização é obrigatória';
-              }
+            onSaved: (value) {
+              userModel.name = value;
             },
+          ),
+          DropdownButtonFormField<String>(
+            value: selectedCityField,
+            decoration: const InputDecoration(
+                labelText: 'Município', hintText: 'ex. São Paulo, SP - Brasil'),
+            onChanged: (city) {
+              selectedCityField = city;
+              userModel.location = city;
+            },
+            validator: (value) =>
+                value == null ? 'Município é obrigatória' : null,
+            items: [
+              "São Paulo",
+              "Adamantina",
+              "Adolfo",
+              "Aguaí",
+              "Águas da Prata",
+              "Águas de Santa Bárbara",
+              "Águas de São Pedro",
+              "Ourinhos",
+              "Ouro Verde",
+              "Agudos",
+              "Alambari",
+              "Suzano",
+              "Osasco",
+              "Alfredo Marcondes",
+              "São Pedro",
+              "São Pedro do Turvo",
+              "São Roque",
+              "São Sebastião",
+              "São Sebastião da Grama",
+              "São Simão",
+              "São Vicente",
+              "Sebastianópolis do Sul",
+              "Serra Azul",
+              "Serra Negra",
+              "Serrana",
+              "Sertãozinho",
+              "Sete Barras",
+              "Vitória Brasil",
+              "Votorantim",
+              "Votuporanga",
+              "Zacarias"
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
           TextFormField(
             inputFormatters: [cpfMask],
@@ -56,6 +105,43 @@ class _RegisterFormState extends State<RegisterForm> {
               } else if (!CPF.isValid(value)) {
                 return 'CPF inválido';
               }
+            },
+            onSaved: (value) {
+              userModel.cpf = value;
+            },
+          ),
+          TextFormField(
+            controller: dateCtl,
+            keyboardType: TextInputType.datetime,
+            decoration: const InputDecoration(
+              labelText: "Data de Nascimento",
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'A Data de Nascimento é obrigatória.';
+              }
+              return null;
+            },
+            onTap: () async {
+              DateTime date;
+              FocusScope.of(context).requestFocus(new FocusNode());
+
+              DateTime today = DateTime.now();
+
+              date = await showDatePicker(
+                  context: context,
+                  initialDate: today.subtract(Duration(days: 500)),
+                  firstDate: DateTime.utc(1900),
+                  lastDate: today.subtract(Duration(days: 500)));
+
+              String dateSlug =
+                  "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+              String dateScreen =
+                  "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString()}";
+
+              dateCtl.text = dateScreen;
+              userModel.birthday = DateTime.parse(dateSlug);
             },
           ),
           TextFormField(
@@ -73,10 +159,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 return 'Telefone inválido';
               }
             },
+            onSaved: (value) {
+              userModel.phone = value;
+            },
           ),
           TextFormField(
             obscureText: false,
-            //style: style,
             decoration: const InputDecoration(
                 labelText: 'Email', hintText: 'ex. maria.paula@mpsp.br'),
             keyboardType: TextInputType.emailAddress,
@@ -91,7 +179,7 @@ class _RegisterFormState extends State<RegisterForm> {
               return null;
             },
             onSaved: (value) {
-              //userModel.email = value;
+              userModel.email = value;
             },
           ),
           TextFormField(
@@ -105,6 +193,9 @@ class _RegisterFormState extends State<RegisterForm> {
               }
             },
             obscureText: true,
+            onSaved: (value) {
+              userModel.password = value;
+            },
           ),
           TextFormField(
             decoration: const InputDecoration(
@@ -118,6 +209,9 @@ class _RegisterFormState extends State<RegisterForm> {
               }
             },
             obscureText: true,
+            onSaved: (value) {
+              userModel.password = value;
+            },
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -156,16 +250,33 @@ class _RegisterFormState extends State<RegisterForm> {
   void _submit() {
     try {
       if (_formKey.currentState.validate()) {
-        SnackBar snackBar = SnackBar(
-          content: Text('Cadastro enviado com sucesso!'),
-          action: SnackBarAction(
-            label: 'Ok',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
+        _formKey.currentState.save();
+        userService.create(userModel).then((userCreated) {
+          SnackBar snackBar = SnackBar(
+            content: Text('Cadastro atualizado com sucesso!'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+          Navigator.pop(context);
+          showAlertDialog(
+              context, "Usuário criado com sucesso", Icon(Icons.check));
+          Scaffold.of(context).showSnackBar(snackBar);
+        }).catchError((onError) {
+          SnackBar snackBar = SnackBar(
+            content: Text('Cadastro atualizado com sucesso!'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        });
       }
     } on Exception catch (e, s) {
       print(s);

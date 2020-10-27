@@ -1,6 +1,8 @@
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/model/user.dart';
+import 'package:mpsp_app/app/services/user_service.dart';
 import 'package:validadores/ValidarEmail.dart';
 
 // ignore: must_be_immutable
@@ -15,11 +17,17 @@ class ProfileForm extends StatefulWidget {
 
 class _ProfileFormState extends State<ProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  String selectedCityField = "São Paulo";
   String _password = "";
   bool _agreedToTOS = true;
+  UserService userService = new UserService();
 
   @override
   Widget build(BuildContext context) {
+    selectedCityField =
+        (widget.userModel.location != null && widget.userModel.location != "")
+            ? widget.userModel.location
+            : "São Paulo";
     return Form(
       key: _formKey,
       child: Column(
@@ -36,28 +44,67 @@ class _ProfileFormState extends State<ProfileForm> {
                 return 'Nome é obrigatório';
               }
             },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Localização ',
-                hintText: 'ex. São Paulo, SP - Brasil'),
-            validator: (value) {
-              if (value.trim().isEmpty) {
-                return 'Localização é obrigatória';
-              }
+            onSaved: (value) {
+              widget.userModel.name = value;
             },
+          ),
+          DropdownButtonFormField<String>(
+            value: selectedCityField,
+            decoration: const InputDecoration(
+                labelText: 'Município ',
+                hintText: 'ex. São Paulo, SP - Brasil'),
+            onChanged: (city) {
+              selectedCityField = city;
+              widget.userModel.location = city;
+            },
+            validator: (value) =>
+                value == null ? 'Município é obrigatória' : null,
+            items: [
+              "São Paulo",
+              "Adamantina",
+              "Adolfo",
+              "Aguaí",
+              "Águas da Prata",
+              "Águas de Santa Bárbara",
+              "Águas de São Pedro",
+              "Ourinhos",
+              "Ouro Verde",
+              "Agudos",
+              "Alambari",
+              "Suzano",
+              "Osasco",
+              "Alfredo Marcondes",
+              "São Pedro",
+              "São Pedro do Turvo",
+              "São Roque",
+              "São Sebastião",
+              "São Sebastião da Grama",
+              "São Simão",
+              "São Vicente",
+              "Sebastianópolis do Sul",
+              "Serra Azul",
+              "Serra Negra",
+              "Serrana",
+              "Sertãozinho",
+              "Sete Barras",
+              "Vitória Brasil",
+              "Votorantim",
+              "Votuporanga",
+              "Zacarias"
+            ].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
           ),
           TextFormField(
             initialValue: widget.userModel.cpf,
             readOnly: true,
             decoration: const InputDecoration(
                 labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
-            validator: (value) {
-              if (value.trim().isEmpty) {
-                return 'CPF é obrigatório';
-              } else if (!CPF.isValid(value)) {
-                return 'CPF inválido';
-              }
+            onSaved: (value) {
+              widget.userModel.cpf = value;
             },
           ),
           TextFormField(
@@ -75,6 +122,9 @@ class _ProfileFormState extends State<ProfileForm> {
               } else if (!regExp.hasMatch(value.trim())) {
                 return 'Telefone inválido';
               }
+            },
+            onSaved: (value) {
+              widget.userModel.phone = value;
             },
           ),
           TextFormField(
@@ -95,21 +145,8 @@ class _ProfileFormState extends State<ProfileForm> {
               return null;
             },
             onSaved: (value) {
-              //userModel.email = value;
+              widget.userModel.email = value;
             },
-          ),
-          TextFormField(
-            initialValue: widget.userModel.password,
-            decoration: const InputDecoration(
-              labelText: 'Senha',
-            ),
-            validator: (String value) {
-              _password = value;
-              if (value.trim().isEmpty) {
-                return 'Senha é obrigatória';
-              }
-            },
-            obscureText: true,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 15),
@@ -133,16 +170,32 @@ class _ProfileFormState extends State<ProfileForm> {
   void _submit() {
     try {
       if (_formKey.currentState.validate()) {
-        SnackBar snackBar = SnackBar(
-          content: Text('Cadastro atualizado com sucesso!'),
-          action: SnackBarAction(
-            label: 'Ok',
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        );
-        Scaffold.of(context).showSnackBar(snackBar);
+        _formKey.currentState.save();
+        userService.update(widget.userModel).then((userCreated) {
+          print('foi');
+          SnackBar snackBar = SnackBar(
+            content: Text('Cadastro atualizado com sucesso!'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        }).catchError((onError) {
+          print(onError);
+          SnackBar snackBar = SnackBar(
+            content: Text('Não foi possível atualizar'),
+            action: SnackBarAction(
+              label: 'Ok',
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          );
+          Scaffold.of(context).showSnackBar(snackBar);
+        });
       }
     } on Exception catch (e, s) {
       print(s);

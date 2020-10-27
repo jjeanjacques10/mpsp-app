@@ -42,9 +42,12 @@ class UserService {
     return dio
         .get(
           '/user/$id',
-          options: buildCacheOptions(Duration(days: 7)),
+          options: buildCacheOptions(Duration(days: 7), forceRefresh: true),
         )
-        .then((res) => UserModel.fromJson(res.data));
+        .then((res) => UserModel.fromJson(res.data))
+        .catchError((onError) {
+      print(onError);
+    });
   }
 
   Future<String> getToken() async {
@@ -57,8 +60,13 @@ class UserService {
     prefs.clear();
   }
 
-  Future<void> cadastrarUser(UserModel user) async {
+  Future<void> create(UserModel user) async {
     final dio = CustomDio().instance;
     return dio.post('/user', data: user.toJson());
+  }
+
+  Future<void> update(UserModel user) async {
+    final dio = CustomDio.withAuthentication().instance;
+    return dio.put('/user/${user.id}', data: user.toJson());
   }
 }

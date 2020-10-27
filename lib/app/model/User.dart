@@ -4,8 +4,10 @@ class UserModel {
   String cpf;
   String email;
   String password;
+  String image;
+  String location;
   String phone;
-  String birthday;
+  DateTime birthday;
   bool isAdmin;
   String updatedAt;
   String createdAt;
@@ -17,6 +19,8 @@ class UserModel {
       this.cpf,
       this.email,
       this.password,
+      this.image,
+      this.location,
       this.phone,
       this.birthday,
       this.isAdmin,
@@ -29,10 +33,13 @@ class UserModel {
     name = json['name'];
     cpf = json['cpf'];
     email = json['email'];
-    password = json['password'];
+    password = json.containsKey('password') ? json['password'] : '';
+    image = json['image'] != null ? json['image'] : '';
+    location = json['location'] != null ? json['location'] : '';
     phone = json['phone'];
-    birthday = json['birthday'];
-    isAdmin = json['is_admin'];
+    birthday =
+        json['birthday'] != null ? DateTime.parse(json['birthday']) : null;
+    isAdmin = json['is_admin'] ? true : false;
     updatedAt = json['updatedAt'];
     createdAt = json['createdAt'];
     passwordHash = json['password_hash'];
@@ -45,8 +52,11 @@ class UserModel {
     data['cpf'] = this.cpf;
     data['email'] = this.email;
     data['password'] = this.password;
+    data['image'] = this.image;
+    data['location'] = this.location;
     data['phone'] = this.phone;
-    data['birthday'] = this.birthday;
+    data['birthday'] =
+        "${this.birthday.year.toString()}-${this.birthday.month.toString().padLeft(2, '0')}-${this.birthday.day.toString().padLeft(2, '0')}";
     data['is_admin'] = this.isAdmin;
     data['updatedAt'] = this.updatedAt;
     data['createdAt'] = this.createdAt;

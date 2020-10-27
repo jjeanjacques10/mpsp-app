@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
               if (!homeScreenStore.isLoading) {
                 return UserAccountsDrawerHeader(
                   accountName: Text(
-                    homeScreenStore.name != null ? homeScreenStore.name : '',
+                    homeScreenStore.userModel.name != null
+                        ? homeScreenStore.userModel.name
+                        : '',
                     style: TextStyle(fontSize: 22),
                   ),
                   accountEmail: Text(
@@ -51,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               } else {
-                if (homeScreenStore.name.isEmpty) {
+                if (homeScreenStore.userModel.name.isEmpty) {
                   return UserAccountsDrawerHeader(
                     accountName: Shimmer.fromColors(
                       highlightColor: _highLightColor,
@@ -117,11 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     '/profile',
                     arguments: homeScreenStore.userModel,
-                  ).then((value) {
-                    setState(() {
-                      // userModel = value;
-                    });
-                  });
+                  );
                 }),
             ListTile(
                 leading: Icon(Icons.restore),
@@ -244,7 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
               Observer(builder: (ctx) {
                 if (!homeScreenStore.isLoading) {
                   return Text(
-                    homeScreenStore.user.name,
+                    homeScreenStore.user != null
+                        ? homeScreenStore.user.name
+                        : '',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
