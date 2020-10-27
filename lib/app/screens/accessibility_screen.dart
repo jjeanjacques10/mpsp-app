@@ -1,4 +1,6 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 
 class AccessibilityScreen extends StatefulWidget {
   @override
@@ -6,6 +8,7 @@ class AccessibilityScreen extends StatefulWidget {
 }
 
 class _AccessibilityScreenState extends State<AccessibilityScreen> {
+  bool isSwitched = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,11 +18,29 @@ class _AccessibilityScreenState extends State<AccessibilityScreen> {
         elevation: 0.0,
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [],
+            children: [
+              GFListTile(
+                avatar: Icon(
+                  Icons.translate,
+                  color: Colors.grey,
+                ),
+                titleText: 'Text-to-Speech',
+                icon: Switch(
+                  value: isSwitched,
+                  onChanged: (value) {
+                    setState(() {
+                      isSwitched = value;
+                      print(isSwitched);
+                    });
+                  },
+                  activeTrackColor: Colors.redAccent,
+                  activeColor: Colors.white,
+                ),
+              )
+            ],
           ),
         ),
       ),
