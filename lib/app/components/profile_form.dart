@@ -1,11 +1,13 @@
 import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app/model/user.dart';
 import 'package:validadores/ValidarEmail.dart';
 
+// ignore: must_be_immutable
 class ProfileForm extends StatefulWidget {
-  const ProfileForm({
-    Key key,
-  }) : super(key: key);
+  ProfileForm({Key key, this.userModel}) : super(key: key);
+
+  UserModel userModel;
 
   @override
   _ProfileFormState createState() => _ProfileFormState();
@@ -24,6 +26,7 @@ class _ProfileFormState extends State<ProfileForm> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           TextFormField(
+            initialValue: widget.userModel.name,
             decoration: const InputDecoration(
               labelText: 'Nome',
               hintText: 'ex. Maria Paula da Silva Pereira',
@@ -45,6 +48,7 @@ class _ProfileFormState extends State<ProfileForm> {
             },
           ),
           TextFormField(
+            initialValue: widget.userModel.cpf,
             readOnly: true,
             decoration: const InputDecoration(
                 labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
@@ -57,6 +61,7 @@ class _ProfileFormState extends State<ProfileForm> {
             },
           ),
           TextFormField(
+            initialValue: widget.userModel.phone,
             decoration: const InputDecoration(
               labelText: 'Telefone',
               hintText: 'ex. (11) 98765-4321',
@@ -73,6 +78,7 @@ class _ProfileFormState extends State<ProfileForm> {
             },
           ),
           TextFormField(
+            initialValue: widget.userModel.email,
             obscureText: false,
             //style: style,
             decoration: const InputDecoration(
@@ -93,6 +99,7 @@ class _ProfileFormState extends State<ProfileForm> {
             },
           ),
           TextFormField(
+            initialValue: widget.userModel.password,
             decoration: const InputDecoration(
               labelText: 'Senha',
             ),
@@ -100,19 +107,6 @@ class _ProfileFormState extends State<ProfileForm> {
               _password = value;
               if (value.trim().isEmpty) {
                 return 'Senha é obrigatória';
-              }
-            },
-            obscureText: true,
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Confirmar senha',
-            ),
-            validator: (String value) {
-              if (value.trim().isEmpty) {
-                return 'Confirmar senha é obrigatório';
-              } else if (value.trim() != _password.trim()) {
-                return 'As senhas devem ser iguais';
               }
             },
             obscureText: true,
@@ -153,11 +147,5 @@ class _ProfileFormState extends State<ProfileForm> {
     } on Exception catch (e, s) {
       print(s);
     }
-  }
-
-  void _setAgreedToTOS(bool newValue) {
-    setState(() {
-      _agreedToTOS = newValue;
-    });
   }
 }

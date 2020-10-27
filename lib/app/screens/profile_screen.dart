@@ -13,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     UserModel userModel = ModalRoute.of(context).settings.arguments;
@@ -30,12 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: Colors.white,
         ),
       ),
-      body:
-          //IconData(59558, fontFamily: 'MaterialIcons'),
-          const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-          child: ProfileForm(),
+          child: ProfileForm(userModel: userModel),
         ),
       ),
     );
