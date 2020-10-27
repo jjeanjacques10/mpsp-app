@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }),
             ListTile(
-                leading: Icon(Icons.announcement_rounded),
+                leading: Icon(Icons.info_outline),
                 title: Text("Sobre"),
                 onTap: () {
                   Navigator.pushNamed(
