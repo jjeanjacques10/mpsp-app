@@ -1,4 +1,3 @@
-import 'package:cpfcnpj/cpfcnpj.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/model/user.dart';
@@ -21,9 +20,11 @@ class _ProfileFormState extends State<ProfileForm> {
   String _password = "";
   bool _agreedToTOS = true;
   UserService userService = new UserService();
-
+  TextEditingController dateCtl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    dateCtl.text =
+        "${widget.userModel.birthday.day.toString().padLeft(2, '0')}/${widget.userModel.birthday.month.toString().padLeft(2, '0')}/${widget.userModel.birthday.year.toString()}";
     selectedCityField =
         (widget.userModel.location != null && widget.userModel.location != "")
             ? widget.userModel.location
@@ -105,6 +106,40 @@ class _ProfileFormState extends State<ProfileForm> {
                 labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
             onSaved: (value) {
               widget.userModel.cpf = value;
+            },
+          ),
+          TextFormField(
+            controller: dateCtl,
+            keyboardType: TextInputType.datetime,
+            decoration: const InputDecoration(
+              labelText: "Data de Nascimento",
+            ),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'A Data de Nascimento é obrigatória.';
+              }
+              return null;
+            },
+            onTap: () async {
+              DateTime date;
+              FocusScope.of(context).requestFocus(new FocusNode());
+
+              DateTime today = DateTime.now();
+
+              date = await showDatePicker(
+                  context: context,
+                  initialDate: today.subtract(Duration(days: 500)),
+                  firstDate: DateTime.utc(1900),
+                  lastDate: today.subtract(Duration(days: 500)));
+
+              String dateSlug =
+                  "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+              String dateScreen =
+                  "${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year.toString()}";
+
+              dateCtl.text = dateScreen;
+              widget.userModel.birthday = DateTime.parse(dateSlug);
             },
           ),
           TextFormField(

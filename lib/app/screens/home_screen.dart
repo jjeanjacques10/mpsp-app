@@ -120,6 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     '/profile',
                     arguments: homeScreenStore.userModel,
                   );
+                  homeScreenStore.init();
                 }),
             ListTile(
                 leading: Icon(Icons.restore),
