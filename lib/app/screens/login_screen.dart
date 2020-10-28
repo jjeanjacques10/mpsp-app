@@ -41,7 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
   UserService userService = new UserService();
   UserModel userModel = new UserModel();
 
-  bool _isLoggedIn = false;
   Map userProfile;
   final facebookLogin = FacebookLogin();
 
@@ -52,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
       case FacebookLoginStatus.loggedIn:
         final token = result.accessToken.token;
         final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=${token}');
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=$token');
         final profile = JSON.jsonDecode(graphResponse.body);
         print(profile);
         userProfile = profile;
@@ -73,21 +72,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   Icon(Icons.error))
             });
         break;
-
       case FacebookLoginStatus.cancelledByUser:
-        setState(() => _isLoggedIn = false);
+        showAlertDialog(
+            context, "Não foi possivel realizar o login", Icon(Icons.error));
         break;
       case FacebookLoginStatus.error:
-        setState(() => _isLoggedIn = false);
+        showAlertDialog(
+            context, "Não foi possivel realizar o login", Icon(Icons.error));
         break;
     }
-  }
-
-  _logout() {
-    facebookLogin.logOut();
-    setState(() {
-      _isLoggedIn = false;
-    });
   }
 
   @override

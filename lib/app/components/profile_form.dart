@@ -17,7 +17,6 @@ class ProfileForm extends StatefulWidget {
 class _ProfileFormState extends State<ProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String selectedCityField = "São Paulo";
-  String _password = "";
   bool _agreedToTOS = true;
   UserService userService = new UserService();
   TextEditingController dateCtl = TextEditingController();
@@ -44,6 +43,7 @@ class _ProfileFormState extends State<ProfileForm> {
               if (value.trim().isEmpty) {
                 return 'Nome é obrigatório';
               }
+              return null;
             },
             onSaved: (value) {
               widget.userModel.name = value;
@@ -157,6 +157,7 @@ class _ProfileFormState extends State<ProfileForm> {
               } else if (!regExp.hasMatch(value.trim())) {
                 return 'Telefone inválido';
               }
+              return null;
             },
             onSaved: (value) {
               widget.userModel.phone = value;

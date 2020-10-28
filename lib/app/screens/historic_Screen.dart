@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:shimmer/shimmer.dart';
-
 class HistoricScreen extends StatefulWidget {
   @override
   _HistoricScreenState createState() => _HistoricScreenState();
@@ -45,7 +43,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -56,7 +55,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -67,7 +67,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -78,7 +79,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -89,7 +91,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -100,7 +103,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -111,7 +115,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",
@@ -122,7 +127,8 @@ class _HistoricScreenState extends State<HistoricScreen> {
                   Text("Lorem ipsum dollor"),
                 ],
               ),
-              SizedBox(height: 10),Row(
+              SizedBox(height: 10),
+              Row(
                 children: [
                   Text(
                     "[22/11/2020 15:43] Maria Paula: ",

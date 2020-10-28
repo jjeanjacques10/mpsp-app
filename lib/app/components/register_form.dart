@@ -41,6 +41,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) {
                 return 'Nome é obrigatório';
               }
+              return null;
             },
             onSaved: (value) {
               userModel.name = value;
@@ -105,6 +106,7 @@ class _RegisterFormState extends State<RegisterForm> {
               } else if (!CPF.isValid(value)) {
                 return 'CPF inválido';
               }
+              return null;
             },
             onSaved: (value) {
               userModel.cpf = value;
@@ -158,6 +160,7 @@ class _RegisterFormState extends State<RegisterForm> {
               } else if (!regExp.hasMatch(value.trim())) {
                 return 'Telefone inválido';
               }
+              return null;
             },
             onSaved: (value) {
               userModel.phone = value;
@@ -191,6 +194,7 @@ class _RegisterFormState extends State<RegisterForm> {
               if (value.trim().isEmpty) {
                 return 'Senha é obrigatória';
               }
+              return null;
             },
             obscureText: true,
             onSaved: (value) {
@@ -207,6 +211,7 @@ class _RegisterFormState extends State<RegisterForm> {
               } else if (value.trim() != _password.trim()) {
                 return 'As senhas devem ser iguais';
               }
+              return null;
             },
             obscureText: true,
             onSaved: (value) {

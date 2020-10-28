@@ -100,7 +100,7 @@ class _MessagesListItemState extends State<MessagesListItem> {
         : _showReceivedMessage();
   }
 
-  Widget _showSentMessage({EdgeInsets padding, TextAlign textAlign}) {
+  Widget _showSentMessage() {
     return ListTile(
       contentPadding: EdgeInsets.fromLTRB(45.0, 0.0, 0.0, 0.0),
       trailing: CircleAvatar(
