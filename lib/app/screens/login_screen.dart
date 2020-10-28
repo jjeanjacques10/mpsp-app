@@ -44,45 +44,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Map userProfile;
   final facebookLogin = FacebookLogin();
 
-  _loginWithFB() async {
-    final result = await facebookLogin.logInWithReadPermissions(['email']);
-
-    switch (result.status) {
-      case FacebookLoginStatus.loggedIn:
-        final token = result.accessToken.token;
-        final graphResponse = await http.get(
-            'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=$token');
-        final profile = JSON.jsonDecode(graphResponse.body);
-        print(profile);
-        userProfile = profile;
-        userService.loginFacebook(userProfile).then((value) {
-          if (value == true) {
-            print("Login Realizado");
-            Navigator.pushReplacementNamed(
-              context,
-              "/home",
-            );
-          } else {
-            print("Login Não Realizado");
-            showAlertDialog(context, "Não foi possivel realizar o login",
-                Icon(Icons.error));
-          }
-        }).catchError((onError) => {
-              showAlertDialog(context, "Não foi possivel realizar o login",
-                  Icon(Icons.error))
-            });
-        break;
-      case FacebookLoginStatus.cancelledByUser:
-        showAlertDialog(
-            context, "Não foi possivel realizar o login", Icon(Icons.error));
-        break;
-      case FacebookLoginStatus.error:
-        showAlertDialog(
-            context, "Não foi possivel realizar o login", Icon(Icons.error));
-        break;
-    }
-  }
-
   @override
   void initState() {
     userService.isLogged().then((isLogged) {
@@ -98,6 +59,45 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _loginWithFB() async {
+      final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+      switch (result.status) {
+        case FacebookLoginStatus.loggedIn:
+          final token = result.accessToken.token;
+          final graphResponse = await http.get(
+              'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=$token');
+          final profile = JSON.jsonDecode(graphResponse.body);
+          print(profile);
+          userProfile = profile;
+          userService.loginFacebook(userProfile).then((value) {
+            if (value == true) {
+              print("Login Realizado");
+              Navigator.pushReplacementNamed(
+                context,
+                "/home",
+              );
+            } else {
+              print("Login Não Realizado");
+              showAlertDialog(context, "Não foi possivel realizar o login",
+                  Icon(Icons.error));
+            }
+          }).catchError((onError) => {
+                showAlertDialog(context, "Não foi possivel realizar o login",
+                    Icon(Icons.error))
+              });
+          break;
+        case FacebookLoginStatus.cancelledByUser:
+          showAlertDialog(
+              context, "Não foi possivel realizar o login", Icon(Icons.error));
+          break;
+        case FacebookLoginStatus.error:
+          showAlertDialog(
+              context, "Não foi possivel realizar o login", Icon(Icons.error));
+          break;
+      }
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
