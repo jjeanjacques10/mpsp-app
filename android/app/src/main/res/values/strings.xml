@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MPSP Digital</string>
+    <string name="facebook_app_id">1040263316414600</string>
+    <string name="fb_login_protocol_scheme">fb1040263316414600</string>
+</resources>

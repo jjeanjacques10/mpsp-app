@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:validadores/ValidarEmail.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as JSON;
 import 'package:mpsp_app/app/components/show_alert_dialog.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
@@ -19,10 +21,6 @@ class FlashScreenState extends State<FlashScreen> {
     return new SplashScreen(
         seconds: 5,
         navigateAfterSeconds: new LoginScreen(),
-        /* title: new Text(
-          'Bem vindo ao MPSP Digital',
-          style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
-        ), */
         image: new Image.asset('assets/images/mpsp-digital-logo-branco.png'),
         backgroundColor: Color.fromRGBO(197, 23, 24, 1),
         styleTextUnderTheLoader: new TextStyle(),
@@ -42,6 +40,55 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   UserService userService = new UserService();
   UserModel userModel = new UserModel();
+
+  bool _isLoggedIn = false;
+  Map userProfile;
+  final facebookLogin = FacebookLogin();
+
+  _loginWithFB() async {
+    final result = await facebookLogin.logInWithReadPermissions(['email']);
+
+    switch (result.status) {
+      case FacebookLoginStatus.loggedIn:
+        final token = result.accessToken.token;
+        final graphResponse = await http.get(
+            'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=${token}');
+        final profile = JSON.jsonDecode(graphResponse.body);
+        print(profile);
+        userProfile = profile;
+        userService.loginFacebook(userProfile).then((value) {
+          if (value == true) {
+            print("Login Realizado");
+            Navigator.pushReplacementNamed(
+              context,
+              "/home",
+            );
+          } else {
+            print("Login Não Realizado");
+            showAlertDialog(context, "Não foi possivel realizar o login",
+                Icon(Icons.error));
+          }
+        }).catchError((onError) => {
+              showAlertDialog(context, "Não foi possivel realizar o login",
+                  Icon(Icons.error))
+            });
+        break;
+
+      case FacebookLoginStatus.cancelledByUser:
+        setState(() => _isLoggedIn = false);
+        break;
+      case FacebookLoginStatus.error:
+        setState(() => _isLoggedIn = false);
+        break;
+    }
+  }
+
+  _logout() {
+    facebookLogin.logOut();
+    setState(() {
+      _isLoggedIn = false;
+    });
+  }
 
   @override
   void initState() {
@@ -199,6 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: "Login com Facebook",
                       onPressed: () {
                         print("Login com Facebook");
+                        _loginWithFB();
                       },
                     ),
                     SizedBox(width: 150),

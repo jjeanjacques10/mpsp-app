@@ -179,7 +179,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             'http://www.mpsp.mp.br/portal/page/portal/lista_telefonica'),
                       ),
                       IconButton(
-                        icon: Icon(Icons.headset_mic, color: Colors.grey),
+                        icon: Icon(Icons.support_agent_rounded,
+                            color: Colors.grey),
                         onPressed: () => launchURL(
                             'https://sis.mpsp.mp.br/atendimentocidadao/Ouvidoria/Manifestacao/EscolherTipoDeIdentificacao'),
                       ),

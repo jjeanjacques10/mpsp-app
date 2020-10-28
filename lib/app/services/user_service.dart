@@ -36,6 +36,32 @@ class UserService {
     }
   }
 
+  Future<bool> loginFacebook(Map data) {
+    final dio = CustomDio().instance;
+    try {
+      return dio.post('/auth-facebook', data: data).then((res) async {
+        //print(res.data['token']);
+        final String token = res.data['token'];
+        if (token != null) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', token);
+          prefs.setString('id', res.data['user']['id_user'].toString());
+          prefs.setString('name', res.data['user']['name']);
+          prefs.setString('email', res.data['user']['email']);
+          return true;
+        }
+
+        return false;
+      }).catchError((err) {
+        print(err);
+        return false;
+      });
+    } catch (err) {
+      print(err);
+      return Future.value(false);
+    }
+  }
+
   Future<UserModel> findById(int id) async {
     final dio = CustomDio.withAuthentication().instance;
 
