@@ -17,7 +17,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   UserService userService = UserService();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  HomeScreenStore homeScreenStore;
+  HomeScreenStore homeScreenStore = HomeScreenStore();
   static const _highLightColor = Color.fromRGBO(64, 75, 96, .1);
   static const _baseColor = Colors.black;
   static const _duration = Duration(milliseconds: 4000);
@@ -32,26 +32,31 @@ class _HomeScreenState extends State<HomeScreen> {
         child: ListView(
           children: <Widget>[
             Observer(builder: (ctx) {
-              if (!homeScreenStore.isLoading) {
+              if (homeScreenStore.isLoading) {
                 return UserAccountsDrawerHeader(
-                  accountName: Text(
-                    homeScreenStore.userModel.name != null
-                        ? homeScreenStore.userModel.name
-                        : '',
-                    style: TextStyle(fontSize: 22),
+                  accountName: Shimmer.fromColors(
+                    highlightColor: _highLightColor,
+                    baseColor: _baseColor,
+                    period: _duration,
+                    child: Container(
+                      height: 25,
+                      width: 170,
+                      color: _highLightColor,
+                    ),
                   ),
-                  accountEmail: Text(
-                    homeScreenStore.user.email != null
-                        ? homeScreenStore.user.email
-                        : '',
-                    style: TextStyle(fontSize: 15),
+                  accountEmail: Shimmer.fromColors(
+                    highlightColor: _highLightColor,
+                    baseColor: _baseColor,
+                    period: _duration,
+                    child: Container(
+                      height: 25,
+                      width: 100,
+                      color: _highLightColor,
+                    ),
                   ),
                   currentAccountPicture: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: homeScreenStore.user.image != null
-                        ? NetworkImage(
-                            homeScreenStore.user.image.replaceAll(' ', ''))
-                        : AssetImage("assets/images/avatar.png"),
+                    backgroundImage: AssetImage("assets/images/avatar.png"),
                     backgroundColor: Colors.transparent,
                   ),
                 );
@@ -86,29 +91,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
                 return UserAccountsDrawerHeader(
-                  accountName: Shimmer.fromColors(
-                    highlightColor: _highLightColor,
-                    baseColor: _baseColor,
-                    period: _duration,
-                    child: Container(
-                      height: 25,
-                      width: 170,
-                      color: _highLightColor,
-                    ),
+                  accountName: Text(
+                    homeScreenStore.userModel.name != null
+                        ? homeScreenStore.userModel.name
+                        : '',
+                    style: TextStyle(fontSize: 22),
                   ),
-                  accountEmail: Shimmer.fromColors(
-                    highlightColor: _highLightColor,
-                    baseColor: _baseColor,
-                    period: _duration,
-                    child: Container(
-                      height: 25,
-                      width: 100,
-                      color: _highLightColor,
-                    ),
+                  accountEmail: Text(
+                    homeScreenStore.user.email != null
+                        ? homeScreenStore.user.email
+                        : '',
+                    style: TextStyle(fontSize: 15),
                   ),
                   currentAccountPicture: CircleAvatar(
                     radius: 30.0,
-                    backgroundImage: AssetImage("assets/images/avatar.png"),
+                    backgroundImage: homeScreenStore.user.image != null
+                        ? NetworkImage(
+                            homeScreenStore.user.image.replaceAll(' ', ''))
+                        : AssetImage("assets/images/avatar.png"),
                     backgroundColor: Colors.transparent,
                   ),
                 );
