@@ -21,6 +21,14 @@ class _HomeScreenState extends State<HomeScreen> {
   static const _highLightColor = Color.fromRGBO(64, 75, 96, .1);
   static const _baseColor = Colors.black;
   static const _duration = Duration(milliseconds: 4000);
+  List<String> linksNews = [
+    'http://www.mpsp.mp.br/',
+    'http://www.mpsp.mp.br/',
+    'http://www.mpsp.mp.br/',
+    'http://www.mpsp.mp.br/',
+    'http://www.mpsp.mp.br/',
+    'http://www.mpsp.mp.br/'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -304,9 +312,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                 ),
-                                child: Center(
-                                  child: Image.asset(
-                                      'assets/images/servico$i.jpg'),
+                                child: GestureDetector(
+                                  onTap: () => launchURL(linksNews[i]),
+                                  child: Center(
+                                    child: Image.asset(
+                                        'assets/images/servico$i.jpg'),
+                                  ),
                                 ));
                           },
                         );
