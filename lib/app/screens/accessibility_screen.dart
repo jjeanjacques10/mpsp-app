@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AccessibilityScreen extends StatefulWidget {
   @override
@@ -23,13 +24,18 @@ class _AccessibilityScreenState extends State<AccessibilityScreen> {
             children: [
               GFListTile(
                 avatar: Icon(
-                  Icons.translate,
+                  isSwitched == true
+                      ? Icons.hearing_rounded
+                      : Icons.hearing_disabled_rounded,
                   color: Colors.grey,
                 ),
                 titleText: 'Text-to-Speech',
                 icon: Switch(
                   value: isSwitched,
-                  onChanged: (value) {
+                  onChanged: (value) async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.setString('text-to-speech', value.toString());
                     setState(() {
                       isSwitched = value;
                       print(isSwitched);

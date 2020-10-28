@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MessagesListItem extends StatefulWidget {
   final Messages messages;
@@ -128,23 +129,41 @@ class _MessagesListItemState extends State<MessagesListItem> {
 
   Widget _showReceivedMessage() {
     return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 65.0, 0.0),
+      contentPadding: EdgeInsets.fromLTRB(0.0, 0.0, 45.0, 0.0),
       leading: CircleAvatar(
         backgroundImage: AssetImage('assets/images/maria-paula.jpg'),
       ),
-      title: Text(
-        widget.messages.message,
-        textAlign: TextAlign.left,
-        style: TextStyle(fontSize: 15.2),
+      title: Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        decoration: BoxDecoration(
+          color: Colors.grey[100],
+          shape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
+        child: Text(
+          widget.messages.message,
+          textAlign: TextAlign.left,
+          style: TextStyle(fontSize: 15.2),
+        ),
       ),
-      trailing: Icon(
-        Icons.hearing_rounded,
-        color: Colors.grey[700],
-      ),
+      trailing: _getTextToSpeech() != true
+          ? Icon(
+              Icons.hearing_rounded,
+              color: Colors.grey[700],
+            )
+          : null,
       onTap: () {
         _onChange(widget.messages.message);
         _speak();
       },
     );
   }
+}
+
+_getTextToSpeech() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var id = prefs.getString('text-to-speech');
+  return id == 'true' ? true : false;
 }
