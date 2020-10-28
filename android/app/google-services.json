@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "934382662252",
+    "firebase_url": "https://skytecwebdev.firebaseio.com",
+    "project_id": "skytecwebdev",
+    "storage_bucket": "skytecwebdev.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:934382662252:android:297ed9ea6abc3bb1da5e49",
+        "android_client_info": {
+          "package_name": "com.mpsp.jjean"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "934382662252-dl7u5qt78lr2t73o4podbh1tl7g0g0p2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mpsp.jjean",
+            "certificate_hash": "9dd40295d5161183c9b71476aae31552d5cdd1ca"
+          }
+        },
+        {
+          "client_id": "934382662252-e54qt6rfro6e1lq1cpi178k9mlrvc48b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAinCDhN348kjTMK8hPCxOZVzf5oPKZA2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "934382662252-hp7ic6hua6vt8n5jklppums9tt2eo89a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

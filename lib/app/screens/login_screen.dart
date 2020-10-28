@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
 import 'package:mpsp_app/app/components/show_alert_dialog.dart';
@@ -42,6 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
   UserModel userModel = new UserModel();
 
   Map userProfile;
+
   final facebookLogin = FacebookLogin();
 
   @override
@@ -52,9 +54,10 @@ class _LoginScreenState extends State<LoginScreen> {
           context,
           "/home",
         );
+      } else {
+        super.initState();
       }
     });
-    super.initState();
   }
 
   @override
@@ -68,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
           final graphResponse = await http.get(
               'https://graph.facebook.com/v2.12/me?fields=name,picture,email,birthday,address,location&access_token=$token');
           final profile = JSON.jsonDecode(graphResponse.body);
-          print(profile);
+
           userProfile = profile;
           userService.loginFacebook(userProfile).then((value) {
             if (value == true) {
@@ -95,6 +98,43 @@ class _LoginScreenState extends State<LoginScreen> {
           showAlertDialog(
               context, "Não foi possivel realizar o login", Icon(Icons.error));
           break;
+      }
+    }
+
+    GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
+
+    _loginGoogle() async {
+      try {
+        await _googleSignIn.signIn();
+
+        userProfile = {
+          "id": _googleSignIn.currentUser.id,
+          "name": _googleSignIn.currentUser.displayName,
+          "email": _googleSignIn.currentUser.email,
+          "birthday": null,
+          "location": 'São Paulo',
+          "picture": _googleSignIn.currentUser.photoUrl,
+          'photo': _googleSignIn.currentUser.photoUrl,
+        };
+
+        userService.loginFacebook(userProfile).then((value) {
+          if (value == true) {
+            print("Login Realizado");
+            Navigator.pushReplacementNamed(
+              context,
+              "/home",
+            );
+          } else {
+            print("Login Não Realizado");
+            showAlertDialog(context, "Não foi possivel realizar o login",
+                Icon(Icons.error));
+          }
+        }).catchError((onError) => {
+              showAlertDialog(context, "Não foi possivel realizar o login",
+                  Icon(Icons.error))
+            });
+      } catch (err) {
+        print(err);
       }
     }
 
@@ -232,6 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       text: "Login com Google",
                       onPressed: () {
                         print("Login com Google");
+                        _loginGoogle();
                       },
                     ),
                     SignInButton(
