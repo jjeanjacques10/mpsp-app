@@ -18,13 +18,13 @@ class CustomDio {
         onError: _onError,
       ));
     _dio
-      ..interceptors.add(
-          DioCacheManager(CacheConfig(baseUrl: 'http://192.168.0.107:3000'))
-              .interceptor);
+      ..interceptors.add(DioCacheManager(
+              CacheConfig(baseUrl: 'https://mpsp-wisen.herokuapp.com'))
+          .interceptor);
   }
 
   BaseOptions _options = BaseOptions(
-    baseUrl: 'http://192.168.0.107:3000',
+    baseUrl: 'https://mpsp-wisen.herokuapp.com',
     connectTimeout: 30000,
     receiveTimeout: 30000,
   );
