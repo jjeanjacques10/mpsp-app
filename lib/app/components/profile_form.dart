@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
+import 'package:validadores/ValidarCPF.dart';
 import 'package:validadores/ValidarEmail.dart';
 
 // ignore: must_be_immutable
@@ -13,6 +15,9 @@ class ProfileForm extends StatefulWidget {
   @override
   _ProfileFormState createState() => _ProfileFormState();
 }
+
+var cpfMask = new MaskTextInputFormatter(
+    mask: '##.###.###.#-##', filter: {"#": RegExp(r'[0-9]')});
 
 class _ProfileFormState extends State<ProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -99,15 +104,33 @@ class _ProfileFormState extends State<ProfileForm> {
               );
             }).toList(),
           ),
-          TextFormField(
-            initialValue: widget.userModel.cpf,
-            readOnly: true,
-            decoration: const InputDecoration(
-                labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
-            onSaved: (value) {
-              widget.userModel.cpf = value;
-            },
-          ),
+          widget.userModel.cpf == "" || widget.userModel.cpf == null
+              ? TextFormField(
+                  inputFormatters: [cpfMask],
+                  initialValue: widget.userModel.cpf,
+                  decoration: const InputDecoration(
+                      labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
+                  validator: (String value) {
+                    if (value.trim().isEmpty) {
+                      return 'CPF é obrigatório';
+                    } else if (!CPF.isValid(value)) {
+                      return 'CPF inválido';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    widget.userModel.cpf = value;
+                  },
+                )
+              : TextFormField(
+                  initialValue: widget.userModel.cpf,
+                  readOnly: true,
+                  decoration: const InputDecoration(
+                      labelText: 'CPF', hintText: 'ex. 123.456.789-00'),
+                  onSaved: (value) {
+                    widget.userModel.cpf = value;
+                  },
+                ),
           TextFormField(
             controller: dateCtl,
             keyboardType: TextInputType.datetime,
@@ -214,7 +237,7 @@ class _ProfileFormState extends State<ProfileForm> {
             action: SnackBarAction(
               label: 'Ok',
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, 'update');
               },
             ),
           );
@@ -226,7 +249,7 @@ class _ProfileFormState extends State<ProfileForm> {
             action: SnackBarAction(
               label: 'Ok',
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pop(context, 'update');
               },
             ),
           );

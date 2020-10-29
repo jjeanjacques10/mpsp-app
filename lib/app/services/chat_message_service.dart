@@ -1,15 +1,13 @@
-import 'package:dio_http_cache/dio_http_cache.dart';
-import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/core/custom_dio.dart';
+import 'package:mpsp_app/app/model/chat_message.dart';
 
 class ChatMessageService {
-  Future<List<ChatMessage>> findAll() async {
+  Future<List<ChatMessage>> findAll({int limit = 1}) async {
     final dio = CustomDio.withAuthentication().instance;
 
     return dio
         .get(
-          '/conversation',
-          options: buildCacheOptions(Duration(days: 3), forceRefresh: true),
+          '/conversation/user/?limit=${limit.toString()}',
         )
         .then((res) =>
             res.data.map<ChatMessage>((c) => ChatMessage.fromJson(c)).toList());
@@ -25,9 +23,9 @@ class ChatMessageService {
         .then((res) => ChatMessage.fromJson(res.data));
   }
 
-  Future<void> create(ChatMessage chatMessageModel) async {
+  Future<dynamic> create(ChatMessage chatMessageModel) async {
     final dio = CustomDio.withAuthentication().instance;
-    return dio.post('/conversation', data: chatMessageModel.toJson());
+    return await dio.post('/conversation', data: chatMessageModel.toJson());
   }
 
   Future<void> sendMessage(Messages message) async {

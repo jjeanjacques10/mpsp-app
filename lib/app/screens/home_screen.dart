@@ -125,13 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ListTile(
                 leading: Icon(Icons.account_circle),
                 title: Text("Perfil"),
-                onTap: () {
-                  Navigator.pushNamed(
+                onTap: () async {
+                  var update = await Navigator.pushNamed(
                     context,
                     '/profile',
                     arguments: homeScreenStore.userModel,
                   );
-                  homeScreenStore.init();
+                  if (update != null) {
+                    homeScreenStore.init();
+                  }
                 }),
             ListTile(
                 leading: Icon(Icons.restore),

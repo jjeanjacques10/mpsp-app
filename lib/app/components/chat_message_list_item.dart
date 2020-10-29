@@ -6,10 +6,10 @@ import 'package:mpsp_app/app/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MessagesListItem extends StatefulWidget {
+  MessagesListItem({this.messages, this.userModel});
+
   final Messages messages;
   final UserModel userModel;
-
-  MessagesListItem({this.messages, this.userModel});
 
   @override
   _MessagesListItemState createState() => _MessagesListItemState();
@@ -105,8 +105,11 @@ class _MessagesListItemState extends State<MessagesListItem> {
     return ListTile(
       contentPadding: EdgeInsets.fromLTRB(45.0, 0.0, 0.0, 0.0),
       trailing: CircleAvatar(
-        backgroundImage: NetworkImage(
-            'https://avatars3.githubusercontent.com/u/32225403?s=400&u=9c1a04035cc7b4e8749679fd87d0732c26a3dcd4&v=4'),
+        backgroundImage: widget.userModel != null
+            ? widget.userModel.image != ""
+                ? NetworkImage(widget.userModel.image.replaceAll(' ', ''))
+                : AssetImage("assets/images/avatar.png")
+            : AssetImage("assets/images/avatar.png"),
       ),
       title: Container(
         margin: EdgeInsets.only(left: 50),
@@ -160,10 +163,11 @@ class _MessagesListItemState extends State<MessagesListItem> {
       },
     );
   }
-}
 
-_getTextToSpeech() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var id = prefs.getString('text-to-speech');
-  return id == 'true' ? true : false;
+  _getTextToSpeech() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var id = prefs.getString('text-to-speech');
+
+    return id == 'true' ? true : false;
+  }
 }

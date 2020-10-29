@@ -193,6 +193,8 @@ class _RegisterFormState extends State<RegisterForm> {
               _password = value;
               if (value.trim().isEmpty) {
                 return 'Senha é obrigatória';
+              } else if (value.length < 5) {
+                return 'A senha deve ter mais caracteres';
               }
               return null;
             },

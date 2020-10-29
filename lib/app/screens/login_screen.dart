@@ -85,10 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
               showAlertDialog(context, "Não foi possivel realizar o login",
                   Icon(Icons.error));
             }
-          }).catchError((onError) => {
-                showAlertDialog(context, "Não foi possivel realizar o login",
-                    Icon(Icons.error))
-              });
+          }).catchError((onError) => showAlertDialog(
+              context, "Não foi possivel realizar o login", Icon(Icons.error)));
           break;
         case FacebookLoginStatus.cancelledByUser:
           showAlertDialog(
@@ -114,10 +112,9 @@ class _LoginScreenState extends State<LoginScreen> {
           "birthday": null,
           "location": 'São Paulo',
           "picture": _googleSignIn.currentUser.photoUrl,
-          'photo': _googleSignIn.currentUser.photoUrl,
         };
 
-        userService.loginFacebook(userProfile).then((value) {
+        userService.loginGoogle(userProfile).then((value) {
           if (value == true) {
             print("Login Realizado");
             Navigator.pushReplacementNamed(

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/components/chat_message_list_item.dart';
 import 'package:mpsp_app/app/model/user.dart';
@@ -5,10 +7,14 @@ import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/services/chat_message_service.dart';
 import 'package:watson_assistant_v2/watson_assistant_v2.dart';
 
+// ignore: must_be_immutable
 class WatsonChatScreen extends StatefulWidget {
-  WatsonChatScreen({Key key, this.title}) : super(key: key);
+  WatsonChatScreen({Key key, this.userModel, this.title, this.typeChat})
+      : super(key: key);
 
   final String title;
+  UserModel userModel;
+  String typeChat;
 
   @override
   _WatsonChatScreenState createState() => _WatsonChatScreenState();
@@ -17,7 +23,7 @@ class WatsonChatScreen extends StatefulWidget {
 class _WatsonChatScreenState extends State<WatsonChatScreen> {
   final _messageList = <Messages>[];
   final _controllerText = new TextEditingController();
-  final idConversation = 1;
+  int idConversation = 1;
 
   var i = 1;
 
@@ -42,7 +48,9 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         await watsonAssistant.sendMessage(textMessage, watsonAssistantContext);
 
     Messages message = new Messages(
-        message: watsonAssistantResponse.resultText,
+        message: watsonAssistantResponse.resultText != null
+            ? watsonAssistantResponse.resultText
+            : 'Não entendi, poderia repetir?',
         ownerMessage: 'Maria Paula',
         idConversation: idConversation);
     await chatMessageService.sendMessage(message);
@@ -63,12 +71,17 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    UserModel userModel = ModalRoute.of(context).settings.arguments;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Maria Paula'),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          color: Colors.white,
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -92,9 +105,9 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              _buildList(userModel),
+              _buildList(),
               Divider(height: 1.0),
-              _buildUserInput(userModel),
+              _buildUserInput(),
             ],
           ),
         ),
@@ -109,31 +122,32 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   }
 
   // Cria a lista de mensagens (de baixo para cima)
-  Widget _buildList(UserModel userModel) {
+  Widget _buildList() {
     if (i == 1) {
-      _populate(userModel);
+      _populate();
       i++;
     }
+
     return Flexible(
       child: ListView.builder(
         padding: EdgeInsets.all(8.0),
         reverse: true,
-        itemBuilder: (_, int index) => MessagesListItem(
-            messages: _messageList[index], userModel: userModel),
+        itemBuilder: (_, int index) =>
+            MessagesListItem(messages: _messageList[index]),
         itemCount: _messageList.length,
       ),
     );
   }
 
   // Monta uma linha com o campo de text e o botão de enviao
-  Widget _buildUserInput(UserModel userModel) {
+  Widget _buildUserInput() {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: new Row(
         children: <Widget>[
           _buildTextField(),
-          _buildSendButton(userModel),
+          _buildSendButton(),
         ],
       ),
     );
@@ -152,43 +166,49 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   }
 
   // Botão para enviar a mensagem
-  Widget _buildSendButton(UserModel userModel) {
+  Widget _buildSendButton() {
     return new Container(
       margin: new EdgeInsets.only(left: 8.0),
       child: new IconButton(
           icon: new Icon(Icons.send, color: Theme.of(context).accentColor),
           onPressed: () {
             if (_controllerText.text.isNotEmpty) {
-              _sendMessage(content: _controllerText.text, userModel: userModel);
+              _sendMessage(content: _controllerText.text);
             }
           }),
     );
   }
 
   // Envia uma mensagem com o padrão a direita
-  void _sendMessage({String content, UserModel userModel}) {
+  void _sendMessage({
+    String content,
+  }) {
     String textMessage = _controllerText.text;
 
     Messages message = new Messages(
         message: _controllerText.text,
-        ownerMessage: userModel.name,
+        ownerMessage: widget.userModel.name,
         idConversation: idConversation);
     chatMessageService.sendMessage(message);
     _controllerText.clear();
 
     _addMessage(
-        content: content, type: ChatMessageType.sent, userModel: userModel);
+      content: content,
+      type: ChatMessageType.sent,
+    );
 
     _callWatsonAssistant(textMessage);
   }
 
   // Adiciona uma mensagem na lista de mensagens
-  void _addMessage(
-      {String content, ChatMessageType type, UserModel userModel}) {
+  void _addMessage({
+    String content,
+    ChatMessageType type,
+  }) {
     var message = Messages(
       message: content,
       ownerMessage:
-          type == ChatMessageType.sent ? userModel.name : 'Maria Paula',
+          type == ChatMessageType.sent ? widget.userModel.name : 'Maria Paula',
     );
     print(message);
 
@@ -205,17 +225,40 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
     }
   }
 
-  void _populate(UserModel userModel) {
-    //chatMessageService.getMessagesUserById(userModel.id).then((messages) {
-    chatMessageService.getMessagesUserById(idConversation).then((messages) {
-      print(messages);
-      for (var message in messages.messages) {
-        if (messages != null) {
+  void _populate() {
+    if (widget.typeChat == 'new') {
+      chatMessageService
+          .create(ChatMessage(
+        botName: 'Maria Paula',
+        idUser: widget.userModel.id,
+        type: 'Serviço 1',
+      ))
+          .then((value) {
+        setState(() {
+          print('new ${value.data.id}');
+          idConversation = value.data.id;
+        });
+      });
+    } else {
+      chatMessageService.findAll().then((listMessages) {
+        print(listMessages);
+        if (listMessages.isNotEmpty) {
+          ChatMessage messages = listMessages[0];
           setState(() {
-            _messageList.insert(0, message);
+            idConversation = messages.id;
           });
+          for (var message in messages.messages) {
+            if (messages != null) {
+              setState(() {
+                _messageList.insert(0, message);
+              });
+            }
+          }
         }
-      }
-    });
+      }).catchError((onError) {
+        print(onError);
+        print('fazer algo aqui');
+      });
+    }
   }
 }

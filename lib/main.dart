@@ -8,6 +8,7 @@ import 'package:mpsp_app/app/screens/login_screen.dart';
 import 'package:mpsp_app/app/screens/profile_screen.dart';
 import 'package:mpsp_app/app/screens/register_screen.dart';
 import 'package:mpsp_app/app/screens/watson_chat_screen.dart';
+import 'package:mpsp_app/app/screens/chat_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         "/register": (context) => RegisterScreen(),
         "/login": (context) => LoginScreen(),
         "/profile": (context) => ProfileScreen(),
-        "/chat": (context) => WatsonChatScreen(),
+        "/chat": (context) => ChatScreen(),
+        "/watson": (context) => WatsonChatScreen(),
         "/history": (context) => HistoricScreen(),
         "/accessibility": (context) => AccessibilityScreen(),
         "/about": (context) => AboutScreen(),
