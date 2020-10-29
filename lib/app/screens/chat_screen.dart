@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
       body: Center(
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -61,7 +61,7 @@ class _ChatScreenState extends State<ChatScreen> {
               },
             ),
             SizedBox(
-              width: 15,
+              height: 15,
             ),
             RaisedButton.icon(
               padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

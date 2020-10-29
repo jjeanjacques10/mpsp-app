@@ -25,7 +25,9 @@ class ChatMessageService {
 
   Future<dynamic> create(ChatMessage chatMessageModel) async {
     final dio = CustomDio.withAuthentication().instance;
-    return await dio.post('/conversation', data: chatMessageModel.toJson());
+    return dio
+        .post('/conversation', data: chatMessageModel.toJson())
+        .then((res) => ChatMessage.fromJson(res.data));
   }
 
   Future<void> sendMessage(Messages message) async {

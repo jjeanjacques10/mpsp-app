@@ -225,23 +225,18 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
     }
   }
 
-  void _populate() {
+  Future<void> _populate() async {
     if (widget.typeChat == 'new') {
-      chatMessageService
-          .create(ChatMessage(
+      ChatMessage chat = await chatMessageService.create(ChatMessage(
         botName: 'Maria Paula',
         idUser: widget.userModel.id,
         type: 'Serviço 1',
-      ))
-          .then((value) {
-        setState(() {
-          print('new ${value.data.id}');
-          idConversation = value.data.id;
-        });
+      ));
+      setState(() {
+        idConversation = chat.id;
       });
     } else {
       chatMessageService.findAll().then((listMessages) {
-        print(listMessages);
         if (listMessages.isNotEmpty) {
           ChatMessage messages = listMessages[0];
           setState(() {
@@ -257,7 +252,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         }
       }).catchError((onError) {
         print(onError);
-        print('fazer algo aqui');
       });
     }
   }
