@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/screens/about_screen.dart';
 import 'package:mpsp_app/app/screens/accessibility_screen.dart';
+import 'package:mpsp_app/app/screens/historic_details_screen.dart';
 import 'package:mpsp_app/app/screens/historic_screen.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
 import 'package:mpsp_app/app/screens/login_screen.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         "/chat": (context) => ChatScreen(),
         "/watson": (context) => WatsonChatScreen(),
         "/history": (context) => HistoricScreen(),
+        "/history-details": (context) => HistoricDetailsScreen(),
         "/accessibility": (context) => AccessibilityScreen(),
         "/about": (context) => AboutScreen(),
       },

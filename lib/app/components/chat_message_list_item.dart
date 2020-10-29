@@ -88,11 +88,11 @@ class _MessagesListItemState extends State<MessagesListItem> {
     }
   }
 
-  Future _stop() async {
+/*   Future _stop() async {
     var result = await flutterTts.stop();
     if (result == 1) setState(() => ttsState = TtsState.stopped);
   }
-
+ */
   void _onChange(String text) {
     setState(() {
       _newVoiceText = text;

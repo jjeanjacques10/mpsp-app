@@ -1,10 +1,11 @@
+import 'dart:convert' as JSON;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as JSON;
 import 'package:mpsp_app/app/components/show_alert_dialog.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
@@ -126,10 +127,10 @@ class _LoginScreenState extends State<LoginScreen> {
             showAlertDialog(context, "Não foi possivel realizar o login",
                 Icon(Icons.error));
           }
-        }).catchError((onError) => {
-              showAlertDialog(context, "Não foi possivel realizar o login",
-                  Icon(Icons.error))
-            });
+        }).catchError((onError) {
+          showAlertDialog(
+              context, "Não foi possivel realizar o login", Icon(Icons.error));
+        });
       } catch (err) {
         print(err);
       }
@@ -237,12 +238,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                       "Não foi possivel realizar o login",
                                       Icon(Icons.error));
                                 }
-                              }).catchError((onError) => {
-                                        showAlertDialog(
-                                            context,
-                                            "Não foi possivel realizar o login",
-                                            Icon(Icons.error))
-                                      });
+                              }).catchError((onError) {
+                                showAlertDialog(
+                                    context,
+                                    "Não foi possivel realizar o login",
+                                    Icon(Icons.error));
+                              });
                             } else {
                               showAlertDialog(
                                   context,
