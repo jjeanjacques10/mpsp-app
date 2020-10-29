@@ -24,6 +24,7 @@ class _MessagesListItemState extends State<MessagesListItem> {
   double volume = 2.0;
   double pitch = 1.2;
   double rate = 1.0;
+  bool textToSpeech = false;
 
   String _newVoiceText;
 
@@ -36,7 +37,17 @@ class _MessagesListItemState extends State<MessagesListItem> {
   @override
   initState() {
     super.initState();
+    _getTextToSpeech();
     initTts();
+  }
+
+  Future<void> _getTextToSpeech() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var tts = prefs.getString('text-to-speech');
+
+    setState(() {
+      textToSpeech = tts == 'true' ? true : false;
+    });
   }
 
   initTts() {
@@ -151,7 +162,7 @@ class _MessagesListItemState extends State<MessagesListItem> {
           style: TextStyle(fontSize: 15.2),
         ),
       ),
-      trailing: _getTextToSpeech() != true
+      trailing: textToSpeech == true
           ? Icon(
               Icons.hearing_rounded,
               color: Colors.grey[700],
@@ -162,12 +173,5 @@ class _MessagesListItemState extends State<MessagesListItem> {
         _speak();
       },
     );
-  }
-
-  _getTextToSpeech() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var id = prefs.getString('text-to-speech');
-
-    return id == 'true' ? true : false;
   }
 }
