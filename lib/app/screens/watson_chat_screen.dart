@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/components/chat_message_list_item.dart';
+import 'package:mpsp_app/app/components/choice_menu.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/chat_message_service.dart';
@@ -22,8 +23,14 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   final _messageList = <Messages>[];
   final _controllerText = new TextEditingController();
   int idConversation = 1;
-
   var i = 1;
+  ChoiceMenu _selectedChoice = choices[0];
+
+  void _select(ChoiceMenu choice) {
+    setState(() {
+      _selectedChoice = choice;
+    });
+  }
 
   ChatMessageService chatMessageService = ChatMessageService();
 
@@ -81,7 +88,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
           color: Colors.white,
         ),
         actions: <Widget>[
-          IconButton(
+          /* IconButton(
             icon: Icon(
               Icons.restore,
             ),
@@ -92,7 +99,54 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
               );
               //watsonAssistantContext.resetContext();
             },
-          )
+          ) */
+          PopupMenuButton<ChoiceMenu>(
+            onSelected: _select,
+            itemBuilder: (BuildContext ctx) {
+              return choices.map((ChoiceMenu choice) {
+                return PopupMenuItem<ChoiceMenu>(
+                  enabled: choice.enabled,
+                  value: choice,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            /* Navigator.pushNamed(context, choice.route); */
+                            if (choice.route == "new") {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => WatsonChatScreen(
+                                    userModel: widget.userModel,
+                                    typeChat: 'new',
+                                  ),
+                                ),
+                              );
+                            } else if (choice.route == "historic") {
+                              Navigator.pushNamed(
+                                context,
+                                "/history",
+                              );
+                            }
+                          },
+                          child: Row(
+                            children: [
+                              Icon(
+                                choice.icon,
+                                color: Colors.grey,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Text(choice.title),
+                              ),
+                            ],
+                          ))
+                    ],
+                  ),
+                );
+              }).toList();
+            },
+          ),
         ],
       ),
       body: Scaffold(
@@ -254,3 +308,8 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
     }
   }
 }
+
+const List<ChoiceMenu> choices = const <ChoiceMenu>[
+  const ChoiceMenu(title: 'Novo Atendimento', icon: Icons.add, enabled: true, route: "new"),
+  const ChoiceMenu(title: 'Histórico', icon: Icons.restore, enabled: true, route: "historic"),
+];
