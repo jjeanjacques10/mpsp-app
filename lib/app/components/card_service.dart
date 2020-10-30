@@ -4,7 +4,7 @@ import 'package:mpsp_app/app/methods/laucherURL.dart';
 Card cardService(BuildContext context, Size size, String titulo, String img,
     String desc, String url) {
   var item = <Widget>[
-    SizedBox(height: 25),
+   SizedBox(height: 20),
     GestureDetector(
       child: Center(
         child: Text(
@@ -30,22 +30,8 @@ Card cardService(BuildContext context, Size size, String titulo, String img,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(1.0),
     ),
-    child: Container(
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(29),
-              ),
-              child: Column(
-                children: item,
-              ),
-            ),
-          ),
-        ],
-      ),
+    child: Column(
+      children: item,
     ),
   );
 }
