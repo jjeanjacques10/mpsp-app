@@ -4,7 +4,7 @@ import 'package:mpsp_app/app/components/choice_menu.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/model/user.dart';
 import 'package:mpsp_app/app/services/chat_message_service.dart';
-import 'package:watson_assistant_v2/watson_assistant_v2.dart';
+import 'package:mpsp_app/app/services/watson_assistant_v2.dart';
 
 // ignore: must_be_immutable
 class WatsonChatScreen extends StatefulWidget {
@@ -52,19 +52,26 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
     watsonAssistantResponse =
         await watsonAssistant.sendMessage(textMessage, watsonAssistantContext);
 
+    print(watsonAssistantResponse.context);
+
+    setState(() {
+      watsonAssistantContext = watsonAssistantResponse.context;
+    });
+
     Messages message = new Messages(
         message: watsonAssistantResponse.resultText != null
             ? watsonAssistantResponse.resultText
             : 'Não entendi, poderia repetir?',
         ownerMessage: 'Maria Paula',
         idConversation: idConversation);
+
     await chatMessageService.sendMessage(message);
+
     setState(() {
       _addMessage(
           content: watsonAssistantResponse.resultText,
           type: ChatMessageType.received);
     });
-    watsonAssistantContext = watsonAssistantResponse.context;
   }
 
   @override
@@ -310,6 +317,11 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 }
 
 const List<ChoiceMenu> choices = const <ChoiceMenu>[
-  const ChoiceMenu(title: 'Novo Atendimento', icon: Icons.add, enabled: true, route: "new"),
-  const ChoiceMenu(title: 'Histórico', icon: Icons.restore, enabled: true, route: "historic"),
+  const ChoiceMenu(
+      title: 'Novo Atendimento', icon: Icons.add, enabled: true, route: "new"),
+  const ChoiceMenu(
+      title: 'Histórico',
+      icon: Icons.restore,
+      enabled: true,
+      route: "historic"),
 ];
