@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         "/register": (context) => RegisterScreen(),
         "/login": (context) => LoginScreen(),
         "/profile": (context) => ProfileScreen(),
-        "/chat": (context) => ChatScreen(),
+        "/chat": (context) => WatsonChatScreen(),
         "/watson": (context) => WatsonChatScreen(),
         "/history": (context) => HistoricScreen(),
         "/history-details": (context) => HistoricDetailsScreen(),

@@ -102,7 +102,7 @@ class WatsonAssistantApiV2 {
           print(newSess.statusCode);
         }
         //Create a new session. A session is used to send user input to a skill and receive responses. It also maintains the state of the conversation.
-        print(newSess.body);
+        //print(newSess.body);
         var parsedJsonSession = json.decode(newSess.body);
         session_id = parsedJsonSession['session_id'];
         prefs.setString('sessionPref', parsedJsonSession['session_id']);
@@ -115,7 +115,7 @@ class WatsonAssistantApiV2 {
         body: json.encode(_body),
         //body: data
       );
-      print(receivedText);
+      // print(receivedText);
       /* print(receivedText.statusCode);
       print(receivedText.body);*/
 
@@ -124,7 +124,7 @@ class WatsonAssistantApiV2 {
 
       Map<String, dynamic> _result = json.decode(receivedText.body);
 
-      print('this is result : $_result');
+      //print('this is result : $_result');
       WatsonAssistantContext _context =
           WatsonAssistantContext(context: _result['context']);
 

@@ -95,18 +95,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
           color: Colors.white,
         ),
         actions: <Widget>[
-          /* IconButton(
-            icon: Icon(
-              Icons.restore,
-            ),
-            onPressed: () {
-              Navigator.pushNamed(
-                context,
-                "/history",
-              );
-              //watsonAssistantContext.resetContext();
-            },
-          ) */
           PopupMenuButton<ChoiceMenu>(
             onSelected: _select,
             itemBuilder: (BuildContext ctx) {
@@ -118,15 +106,13 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
                     children: [
                       GestureDetector(
                           onTap: () {
-                            /* Navigator.pushNamed(context, choice.route); */
                             if (choice.route == "new") {
-                              Navigator.push(
+                              Navigator.popAndPushNamed(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => WatsonChatScreen(
-                                    userModel: widget.userModel,
-                                    typeChat: 'new',
-                                  ),
+                                '/chat',
+                                arguments: WatsonChatScreen(
+                                  userModel: widget.userModel,
+                                  typeChat: 'new',
                                 ),
                               );
                             } else if (choice.route == "historic") {
