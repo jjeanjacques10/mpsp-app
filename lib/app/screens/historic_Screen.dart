@@ -36,7 +36,7 @@ class _HistoricScreenState extends State<HistoricScreen> {
                     historicScreenStore.getListChats[index];
                 return Positioned(
                   child: Container(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 20),
+                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(29),

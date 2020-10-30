@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mpsp_app/app/components/chat_message_list_item.dart';
 import 'package:mpsp_app/app/components/show_alert_dialog.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 
@@ -36,10 +37,42 @@ class _HistoricDetailsScreenState extends State<HistoricDetailsScreen> {
         body: Center(
           child: Column(
             children: [
-              Text(chatMessage.botName.toString()),
-              Text(chatMessage.createdAt.toString()),
-              Text(chatMessage.id.toString()),
-              Text(chatMessage.messages.toString()),
+              Text(
+                'Nome Bot: ${chatMessage.botName}',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Data: ${chatMessage.createdAt.toString()}',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.grey[600],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Horário: ${chatMessage.createdAt.toString()}',
+                style: TextStyle(
+                  fontSize: 17,
+                  color: Colors.grey[600],
+                ),
+              ),
+              Flexible(
+                child: ListView.builder(
+                  padding: EdgeInsets.all(8.0),
+                  reverse: true,
+                  itemBuilder: (_, int index) =>
+                      MessagesListItem(messages: chatMessage.messages[index]),
+                  itemCount: chatMessage.messages.length,
+                ),
+              ),
             ],
           ),
         ));
