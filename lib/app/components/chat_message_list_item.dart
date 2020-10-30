@@ -170,7 +170,9 @@ class _MessagesListItemState extends State<MessagesListItem> {
           : null,
       onTap: () {
         _onChange(widget.messages.message);
-        _speak();
+        if (textToSpeech == true) {
+          _speak();
+        }
       },
     );
   }
