@@ -56,7 +56,7 @@ class WatsonAssistantApiV2 {
   WatsonAssistantApiV2({
     @required this.watsonAssistantCredential,
   });
-  Future<WatsonAssistantResponse> sendMessage(
+  Future<List<WatsonAssistantResponse>> sendMessage(
       String textInput, WatsonAssistantContext context) async {
     try {
       String urlWatsonAssistant =
@@ -85,27 +85,7 @@ class WatsonAssistantApiV2 {
       if (sessionPref != null && sessionPref != "") {
         session_id = sessionPref;
       } else {
-        var newSess = await http.post(
-            '${watsonAssistantCredential.url}/assistants/${watsonAssistantCredential.assistantID}/sessions?version=${watsonAssistantCredential.version}',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': authn
-            },
-            body: json.encode(_body));
-        try {
-          if (newSess.statusCode != 201) {
-            //throw Exception('Failed to load post');
-            throw Exception('post error: statusCode= ${newSess.statusCode}');
-          }
-        } on Exception {
-          print('Failed to load post');
-          print(newSess.statusCode);
-        }
-        //Create a new session. A session is used to send user input to a skill and receive responses. It also maintains the state of the conversation.
-        //print(newSess.body);
-        var parsedJsonSession = json.decode(newSess.body);
-        session_id = parsedJsonSession['session_id'];
-        prefs.setString('sessionPref', parsedJsonSession['session_id']);
+        session_id = await get_session(authn, _body, session_id, prefs);
       }
       /* print('the session $session_id is created');*/
 
@@ -115,25 +95,67 @@ class WatsonAssistantApiV2 {
         body: json.encode(_body),
         //body: data
       );
+      var parsedJson = json.decode(receivedText.body);
+
+      if (parsedJson['code'] == 404) {
+        session_id = await get_session(authn, _body, session_id, prefs);
+        receivedText = await http.post(
+          '${watsonAssistantCredential.url}/assistants/${watsonAssistantCredential.assistantID}/sessions/$session_id/message?version=${watsonAssistantCredential.version}',
+          headers: {'Content-Type': 'application/json', 'Authorization': authn},
+          body: json.encode(_body),
+          //body: data
+        );
+      }
       // print(receivedText);
       /* print(receivedText.statusCode);
       print(receivedText.body);*/
 
-      var parsedJson = json.decode(receivedText.body);
-      var _WatsonResponse = parsedJson['output']['generic'][0]['text'];
+      List<WatsonAssistantResponse> watsonResultList =
+          List<WatsonAssistantResponse>();
 
-      Map<String, dynamic> _result = json.decode(receivedText.body);
+      parsedJson = json.decode(receivedText.body);
+      var _WatsonResponse;
+      for (var item in parsedJson['output']['generic']) {
+        _WatsonResponse = item['text'];
 
-      //print('this is result : $_result');
-      WatsonAssistantContext _context =
-          WatsonAssistantContext(context: _result['context']);
+        Map<String, dynamic> _result = json.decode(receivedText.body);
 
-      WatsonAssistantResponse watsonAssistantResult = WatsonAssistantResponse(
-          context: _context, resultText: _WatsonResponse);
-      return watsonAssistantResult;
+        //print('this is result : $_result');
+        WatsonAssistantContext _context =
+            WatsonAssistantContext(context: _result['context']);
+
+        WatsonAssistantResponse watsonAssistantResult = WatsonAssistantResponse(
+            context: _context, resultText: _WatsonResponse);
+
+        watsonResultList.add(watsonAssistantResult);
+      }
+      return watsonResultList;
     } catch (error) {
       //print(error);
       return error;
     }
+  }
+
+  Future<String> get_session(String authn, Map<String, dynamic> _body,
+      String session_id, SharedPreferences prefs) async {
+    var newSess = await http.post(
+        '${watsonAssistantCredential.url}/assistants/${watsonAssistantCredential.assistantID}/sessions?version=${watsonAssistantCredential.version}',
+        headers: {'Content-Type': 'application/json', 'Authorization': authn},
+        body: json.encode(_body));
+    try {
+      if (newSess.statusCode != 201) {
+        //throw Exception('Failed to load post');
+        throw Exception('post error: statusCode= ${newSess.statusCode}');
+      }
+    } on Exception {
+      print('Failed to load post');
+      print(newSess.statusCode);
+    }
+    //Create a new session. A session is used to send user input to a skill and receive responses. It also maintains the state of the conversation.
+    //print(newSess.body);
+    var parsedJsonSession = json.decode(newSess.body);
+    session_id = parsedJsonSession['session_id'];
+    prefs.setString('sessionPref', parsedJsonSession['session_id']);
+    return session_id;
   }
 }

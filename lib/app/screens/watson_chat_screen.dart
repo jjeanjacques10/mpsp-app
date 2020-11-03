@@ -45,33 +45,38 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   WatsonAssistantApiV2 watsonAssistant;
   WatsonAssistantResponse watsonAssistantResponse;
+  List<WatsonAssistantResponse> watsonResultList =
+      List<WatsonAssistantResponse>();
   WatsonAssistantContext watsonAssistantContext =
       WatsonAssistantContext(context: {});
 
   void _callWatsonAssistant(String textMessage) async {
-    watsonAssistantResponse =
+    watsonResultList =
         await watsonAssistant.sendMessage(textMessage, watsonAssistantContext);
+    for (var response in watsonResultList) {
+      watsonAssistantResponse = response;
 
-    print(watsonAssistantResponse.context);
+      setState(() {
+        watsonAssistantContext = watsonAssistantResponse.context;
+      });
 
-    setState(() {
-      watsonAssistantContext = watsonAssistantResponse.context;
-    });
+      if (watsonAssistantResponse.resultText != "") {
+        Messages message = new Messages(
+            message: watsonAssistantResponse.resultText != null
+                ? watsonAssistantResponse.resultText
+                : 'Não entendi, poderia repetir?',
+            ownerMessage: 'Maria Paula',
+            idConversation: idConversation);
 
-    Messages message = new Messages(
-        message: watsonAssistantResponse.resultText != null
-            ? watsonAssistantResponse.resultText
-            : 'Não entendi, poderia repetir?',
-        ownerMessage: 'Maria Paula',
-        idConversation: idConversation);
+        await chatMessageService.sendMessage(message);
 
-    await chatMessageService.sendMessage(message);
-
-    setState(() {
-      _addMessage(
-          content: watsonAssistantResponse.resultText,
-          type: ChatMessageType.received);
-    });
+        setState(() {
+          _addMessage(
+              content: watsonAssistantResponse.resultText,
+              type: ChatMessageType.received);
+        });
+      }
+    }
   }
 
   @override
@@ -83,6 +88,9 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.userModel == null) {
+      widget.userModel = ModalRoute.of(context).settings.arguments;
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text('Maria Paula'),
@@ -107,16 +115,26 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
                       GestureDetector(
                           onTap: () {
                             if (choice.route == "new") {
-                              Navigator.popAndPushNamed(
+                              //navigator.pop();
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      // ignore: missing_return
+                                      builder: (BuildContext ctx) =>
+                                          WatsonChatScreen(
+                                            userModel: widget.userModel,
+                                            typeChat: 'new',
+                                          )));
+                              /* Navigator.popAndPushNamed(
                                 context,
                                 '/chat',
                                 arguments: WatsonChatScreen(
                                   userModel: widget.userModel,
                                   typeChat: 'new',
                                 ),
-                              );
+                              ); */
                             } else if (choice.route == "historic") {
-                              Navigator.pushNamed(
+                              Navigator.popAndPushNamed(
                                 context,
                                 "/history",
                               );
@@ -162,7 +180,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
 
   @override
   void dispose() {
-    _controllerText.dispose();
+    //_controllerText.dispose();
     super.dispose();
   }
 
