@@ -26,12 +26,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   var i = 1;
   ChoiceMenu _selectedChoice = choices[0];
 
-  void _select(ChoiceMenu choice) {
-    setState(() {
-      _selectedChoice = choice;
-    });
-  }
-
   ChatMessageService chatMessageService = ChatMessageService();
 
   WatsonAssistantV2Credential credential = WatsonAssistantV2Credential(
@@ -104,7 +98,12 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         ),
         actions: <Widget>[
           PopupMenuButton<ChoiceMenu>(
-            onSelected: _select,
+            onSelected: (ChoiceMenu choice) async {
+              _selectedChoice = choice;
+              setState(() {
+                _selectedChoice = choice;
+              });
+            },
             itemBuilder: (BuildContext ctx) {
               return choices.map((ChoiceMenu choice) {
                 return PopupMenuItem<ChoiceMenu>(
@@ -115,16 +114,18 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
                       GestureDetector(
                           onTap: () {
                             if (choice.route == "new") {
-                              //navigator.pop();
+                              Navigator.pop(context);
                               Navigator.push(
-                                  context,
-                                  new MaterialPageRoute(
-                                      // ignore: missing_return
-                                      builder: (BuildContext ctx) =>
-                                          WatsonChatScreen(
-                                            userModel: widget.userModel,
-                                            typeChat: 'new',
-                                          )));
+                                context,
+                                new MaterialPageRoute(
+                                  // ignore: missing_return
+                                  builder: (BuildContext ctx) =>
+                                      WatsonChatScreen(
+                                    userModel: widget.userModel,
+                                    typeChat: 'new',
+                                  ),
+                                ),
+                              );
                               /* Navigator.popAndPushNamed(
                                 context,
                                 '/chat',
@@ -133,7 +134,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
                                   typeChat: 'new',
                                 ),
                               ); */
-                            } else if (choice.route == "historic") {
+                            } else {
                               Navigator.popAndPushNamed(
                                 context,
                                 "/history",
@@ -165,7 +166,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         body: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               _buildList(),
@@ -191,12 +192,39 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
       i++;
     }
 
+    if (_messageList.length <= 0) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Icon(
+            Icons.chat_bubble_outline,
+            color: Colors.grey[400],
+          ),
+          SizedBox(
+            height: 7,
+          ),
+          Text(
+            'Ainda não há mensagens',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Colors.grey[400],
+              fontSize: 15,
+            ),
+          ),
+          SizedBox(
+            height: 50,
+          ),
+        ],
+      );
+    }
     return Flexible(
       child: ListView.builder(
         padding: EdgeInsets.all(8.0),
         reverse: true,
-        itemBuilder: (_, int index) =>
-            MessagesListItem(messages: _messageList[index]),
+        itemBuilder: (_, int index) {
+          return MessagesListItem(messages: _messageList[index]);
+        },
         itemCount: _messageList.length,
       ),
     );

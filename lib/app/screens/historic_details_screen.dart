@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mpsp_app/app/components/chat_message_list_item.dart';
-import 'package:mpsp_app/app/components/show_alert_dialog.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class HistoricDetailsScreen extends StatefulWidget {
   @override
@@ -24,12 +24,7 @@ class _HistoricDetailsScreenState extends State<HistoricDetailsScreen> {
                 Icons.download_rounded,
               ),
               onPressed: () {
-                showAlertDialog(
-                    context,
-                    'Item Baixado',
-                    Icon(
-                      Icons.download_rounded,
-                    ));
+                showAlertDownload(context);
               },
             )
           ],
@@ -76,5 +71,44 @@ class _HistoricDetailsScreenState extends State<HistoricDetailsScreen> {
             ],
           ),
         ));
+  }
+
+  showAlertDownload(BuildContext context) {
+    Widget pdfButton = FlatButton(
+      child: Text("PDF"),
+      onPressed: () async {
+        final doc = pw.Document();
+
+        doc.addPage(
+          pw.Page(
+            build: (pw.Context context) => pw.Center(
+              child: pw.Text('Hello World!'),
+            ),
+          ),
+        );
+
+        doc.save();
+      },
+    );
+    Widget emailButton = FlatButton(
+      child: Text("Email"),
+      onPressed: () {},
+    );
+    //configura o AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Exportar Atendimento"),
+      content: Text("Deseja exportar de que forma?"),
+      actions: [
+        pdfButton,
+        emailButton,
+      ],
+    );
+    //exibe o diálogo
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }

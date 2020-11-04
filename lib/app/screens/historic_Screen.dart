@@ -34,58 +34,56 @@ class _HistoricScreenState extends State<HistoricScreen> {
               itemBuilder: (BuildContext ctx, int index) {
                 ChatMessage chatMessage =
                     historicScreenStore.getListChats[index];
-                return Positioned(
-                  child: Container(
-                      padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(29),
-                      ),
-                      child: GestureDetector(
-                        child: Card(
-                          margin:
-                              EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(1.0),
-                          ),
-                          child: Container(
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  child: Container(
-                                    padding: EdgeInsets.only(
-                                        top: 18, bottom: 18, left: 20),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(29),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "[22/11/2020 15:43] ${chatMessage.botName}: ",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          ),
+                return Container(
+                    padding: EdgeInsets.only(top: 10, bottom: 10, left: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(29),
+                    ),
+                    child: GestureDetector(
+                      child: Card(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(1.0),
+                        ),
+                        child: Container(
+                          child: Stack(
+                            children: <Widget>[
+                              Positioned(
+                                child: Container(
+                                  padding: EdgeInsets.only(
+                                      top: 18, bottom: 18, left: 20),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(29),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "[22/11/2020 15:43] ${chatMessage.botName}: ",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
                                         ),
-                                        Text("${chatMessage.type}"),
-                                      ],
-                                    ),
+                                      ),
+                                      Text("${chatMessage.type}"),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/history-details',
-                            arguments: chatMessage,
-                          );
-                        },
-                      )),
-                );
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/history-details',
+                          arguments: chatMessage,
+                        );
+                      },
+                    ));
               });
         } else {
           return ListView.builder(
