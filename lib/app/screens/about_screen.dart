@@ -30,9 +30,10 @@ class AboutScreen extends StatelessWidget {
                   height: 80,
                 ),
               ),
+              SizedBox(height: 20),
               Center(
                 child: Text(
-                  "MINISTÉRIO PÚBLICO DO ESTADO DE SÃO PAULO \n\nRua Riachuelo, 115 - São Paulo - CEP 01007-904 - PABX: 11 3119.9000 \nHorário de Atendimento: das 9h às 19h\n\nTodos os direitos reservados",
+                  "MINISTÉRIO PÚBLICO DO ESTADO DE SÃO PAULO \n\nRua Riachuelo, 115 - São Paulo - CEP 01007-904 - PABX: 11 3119.9000 \nHorário de Atendimento: das 9h às 19h\n\nTodos os direitos reservados\n\n\n\nVersão: 1.0.0",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 15),
                 ),

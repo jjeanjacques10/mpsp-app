@@ -17,7 +17,7 @@ class ProfileForm extends StatefulWidget {
 }
 
 var cpfMask = new MaskTextInputFormatter(
-    mask: '##.###.###.#-##', filter: {"#": RegExp(r'[0-9]')});
+    mask: '###.###.###-##', filter: {"#": RegExp(r'[0-9]')});
 
 class _ProfileFormState extends State<ProfileForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -25,10 +25,15 @@ class _ProfileFormState extends State<ProfileForm> {
   bool _agreedToTOS = true;
   UserService userService = new UserService();
   TextEditingController dateCtl = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    dateCtl.text =
-        "${widget.userModel.birthday.day.toString().padLeft(2, '0')}/${widget.userModel.birthday.month.toString().padLeft(2, '0')}/${widget.userModel.birthday.year.toString()}";
+    var dateBirthday = '10/10/1999';
+    if (widget.userModel.birthday != null) {
+      dateBirthday =
+          "${widget.userModel.birthday.day.toString().padLeft(2, '0')}/${widget.userModel.birthday.month.toString().padLeft(2, '0')}/${widget.userModel.birthday.year.toString()}";
+    }
+    dateCtl.text = dateBirthday;
     selectedCityField =
         (widget.userModel.location != null && widget.userModel.location != "")
             ? widget.userModel.location
@@ -38,6 +43,15 @@ class _ProfileFormState extends State<ProfileForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Center(
+            child: CircleAvatar(
+              radius: 60.0,
+              backgroundImage: widget.userModel.image != null
+                  ? NetworkImage(widget.userModel.image.replaceAll(' ', ''))
+                  : AssetImage("assets/images/avatar.png"),
+              backgroundColor: Colors.transparent,
+            ),
+          ),
           TextFormField(
             initialValue: widget.userModel.name,
             decoration: const InputDecoration(
@@ -231,7 +245,6 @@ class _ProfileFormState extends State<ProfileForm> {
       if (_formKey.currentState.validate()) {
         _formKey.currentState.save();
         userService.update(widget.userModel).then((userCreated) {
-          print('foi');
           SnackBar snackBar = SnackBar(
             content: Text('Cadastro atualizado com sucesso!'),
             action: SnackBarAction(

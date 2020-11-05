@@ -59,9 +59,6 @@ class WatsonAssistantApiV2 {
   Future<List<WatsonAssistantResponse>> sendMessage(
       String textInput, WatsonAssistantContext context) async {
     try {
-      String urlWatsonAssistant =
-          "${watsonAssistantCredential.url}/assistants/${watsonAssistantCredential.assistantID}/sessions?version=${watsonAssistantCredential.version}";
-
       //Authentication
       //IBM Cloud is migrating to token-based Identity and Access Management (IAM) authentication.
 

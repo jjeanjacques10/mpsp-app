@@ -8,7 +8,7 @@ class AccessibilityScreen extends StatefulWidget {
 }
 
 class _AccessibilityScreenState extends State<AccessibilityScreen> {
-  bool isSwitched = false;
+  bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

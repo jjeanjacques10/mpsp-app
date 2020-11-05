@@ -24,7 +24,6 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
   final _controllerText = new TextEditingController();
   int idConversation = 1;
   var i = 1;
-  ChoiceMenu _selectedChoice = choices[0];
 
   ChatMessageService chatMessageService = ChatMessageService();
 
@@ -99,10 +98,7 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         actions: <Widget>[
           PopupMenuButton<ChoiceMenu>(
             onSelected: (ChoiceMenu choice) async {
-              _selectedChoice = choice;
-              setState(() {
-                _selectedChoice = choice;
-              });
+              setState(() {});
             },
             itemBuilder: (BuildContext ctx) {
               return choices.map((ChoiceMenu choice) {
