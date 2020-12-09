@@ -63,8 +63,9 @@ class _HistoricDetailsScreenState extends State<HistoricDetailsScreen> {
                 child: ListView.builder(
                   padding: EdgeInsets.all(8.0),
                   reverse: true,
-                  itemBuilder: (_, int index) =>
-                      MessagesListItem(messages: chatMessage.messages[index]),
+                  itemBuilder: (_, int index) => MessagesListItem(
+                    messages: chatMessage.messages[index],
+                  ),
                   itemCount: chatMessage.messages.length,
                 ),
               ),

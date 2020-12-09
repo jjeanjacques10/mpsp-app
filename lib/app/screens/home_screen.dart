@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mpsp_app/app/components/card_service.dart';
 import 'package:mpsp_app/app/model/service.dart';
 import 'package:mpsp_app/app/services/user_service.dart';
@@ -136,13 +137,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 }),
             ListTile(
-                leading: Icon(Icons.restore),
+                leading: Icon(MdiIcons.fileDocumentMultiple),
+                title: Text("Documentos"),
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/documents',
+                    arguments: homeScreenStore.userModel,
+                  );
+                }),
+            ListTile(
+                leading: Icon(MdiIcons.history),
                 title: Text("Histórico de atendimentos"),
                 onTap: () {
                   Navigator.pushNamed(
                     context,
                     '/history',
-                    //arguments: userModel,
+                    //arguments: homeScreenStore.userModel,
                   );
                 }),
             ListTile(
@@ -222,15 +233,15 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: Color.fromRGBO(197, 23, 24, 1),
         ),
       ),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: SingleChildScrollView(
-          primary: false,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 5),
-              Row(
+      body: SingleChildScrollView(
+        primary: false,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 5),
+            Padding(
+              padding: EdgeInsets.only(left: 20, right: 20, top: 30),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
@@ -254,7 +265,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Observer(builder: (ctx) {
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Observer(builder: (ctx) {
                 if (!homeScreenStore.isLoading) {
                   return Text(
                     homeScreenStore.user != null
@@ -278,153 +292,159 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 }
               }),
-              SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.all(5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Notícias",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey[600],
-                      ),
+            ),
+            SizedBox(height: 30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Text(
+                    "Notícias",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[600],
                     ),
-                    SizedBox(
-                      height: 10,
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CarouselSlider(
+                  options: CarouselOptions(
+                    height: 150.0,
+                    viewportFraction: 0.75,
+                    autoPlay: true,
+                    autoPlayInterval: Duration(seconds: 7),
+                    autoPlayAnimationDuration: Duration(milliseconds: 1000),
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enlargeCenterPage: true,
+                  ),
+                  items: [1, 2, 3, 4].map((i) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: GestureDetector(
+                              onTap: () => launchURL(linksNews[i]),
+                              child: Center(
+                                child:
+                                    Image.asset('assets/images/servico$i.jpg'),
+                              ),
+                            ));
+                      },
+                    );
+                  }).toList(),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Text(
+                    "Serviços",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.grey[600],
                     ),
-                    CarouselSlider(
-                      options: CarouselOptions(
-                        height: 150.0,
-                        viewportFraction: 0.75,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 7),
-                        autoPlayAnimationDuration: Duration(milliseconds: 1000),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        enlargeCenterPage: true,
-                      ),
-                      items: [1, 2, 3, 4].map((i) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: EdgeInsets.only(left: 20, right: 20),
+                  child: Observer(builder: (ctx) {
+                    if (!homeScreenStore.isLoading) {
+                      return SizedBox(
+                        height: 450,
+                        child: GridView.builder(
+                            physics:
+                                ScrollPhysics(), // to disable GridView's scrolling
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 4 / 2,
+                            ),
+                            itemCount: homeScreenStore.filtered == null
+                                ? 0
+                                : homeScreenStore.filtered.length,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              ServiceModel serviceModel =
+                                  homeScreenStore.filtered[index];
+                              return cardService(
+                                  context,
+                                  Size(0, 11),
+                                  serviceModel.name,
+                                  'img',
+                                  'desc',
+                                  serviceModel.url);
+                            }),
+                      );
+                    } else {
+                      //return Center(child: CircularProgressIndicator());
+                      return SizedBox(
+                        height: 450,
+                        child: GridView.builder(
+                            physics:
+                                ScrollPhysics(), // to disable GridView's scrolling
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 4 / 2,
+                            ),
+                            itemCount: 10,
+                            itemBuilder: (BuildContext ctx, int index) {
+                              return Card(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 5),
+                                elevation: 2,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(1.0),
                                 ),
-                                child: GestureDetector(
-                                  onTap: () => launchURL(linksNews[i]),
-                                  child: Center(
-                                    child: Image.asset(
-                                        'assets/images/servico$i.jpg'),
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList(),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Text(
-                      "Serviços",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Observer(builder: (ctx) {
-                      if (!homeScreenStore.isLoading) {
-                        return SizedBox(
-                          height: 450,
-                          child: GridView.builder(
-                              physics:
-                                  ScrollPhysics(), // to disable GridView's scrolling
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 4 / 2,
-                              ),
-                              itemCount: homeScreenStore.filtered == null
-                                  ? 0
-                                  : homeScreenStore.filtered.length,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                ServiceModel serviceModel =
-                                    homeScreenStore.filtered[index];
-                                return cardService(
-                                    context,
-                                    Size(0, 11),
-                                    serviceModel.name,
-                                    'img',
-                                    'desc',
-                                    serviceModel.url);
-                              }),
-                        );
-                      } else {
-                        //return Center(child: CircularProgressIndicator());
-                        return SizedBox(
-                          height: 450,
-                          child: GridView.builder(
-                              physics:
-                                  ScrollPhysics(), // to disable GridView's scrolling
-                              shrinkWrap: true,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: 4 / 2,
-                              ),
-                              itemCount: 10,
-                              itemBuilder: (BuildContext ctx, int index) {
-                                return Card(
-                                  margin: EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 5),
-                                  elevation: 2,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(1.0),
-                                  ),
-                                  child: Container(
-                                    child: Stack(
-                                      children: <Widget>[
-                                        Positioned(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              color: Colors.white,
-                                              borderRadius:
-                                                  BorderRadius.circular(29),
-                                            ),
-                                            child: Center(
-                                              child: Shimmer.fromColors(
-                                                highlightColor: _highLightColor,
-                                                baseColor: _baseColor,
-                                                period: _duration,
-                                                child: Container(
-                                                  height: 25,
-                                                  width: 100,
-                                                  color: _highLightColor,
-                                                ),
+                                child: Container(
+                                  child: Stack(
+                                    children: <Widget>[
+                                      Positioned(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(29),
+                                          ),
+                                          child: Center(
+                                            child: Shimmer.fromColors(
+                                              highlightColor: _highLightColor,
+                                              baseColor: _baseColor,
+                                              period: _duration,
+                                              child: Container(
+                                                height: 25,
+                                                width: 100,
+                                                color: _highLightColor,
                                               ),
                                             ),
                                           ),
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                );
-                              }),
-                        );
-                      }
-                    }),
-                    SizedBox(height: 50),
-                  ],
+                                ),
+                              );
+                            }),
+                      );
+                    }
+                  }),
                 ),
-              ),
-            ],
-          ),
+                SizedBox(height: 50),
+              ],
+            ),
+          ],
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

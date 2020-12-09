@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AccessibilityScreen extends StatefulWidget {
@@ -44,7 +45,42 @@ class _AccessibilityScreenState extends State<AccessibilityScreen> {
                   activeTrackColor: Colors.redAccent,
                   activeColor: Colors.white,
                 ),
-              )
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'Em breve...',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                ),
+              ),
+              GFListTile(
+                avatar: Icon(
+                  MdiIcons.contrastBox,
+                  color: Colors.grey,
+                ),
+                enabled: false,
+                titleText: 'Alto Contraste',
+                icon: Switch(
+                  value: false,
+                  onChanged: (value) async {},
+                  activeTrackColor: Colors.redAccent,
+                  activeColor: Colors.white,
+                ),
+              ),
+              GFListTile(
+                avatar: Icon(
+                  Icons.pan_tool,
+                  color: Colors.grey,
+                ),
+                enabled: false,
+                titleText: 'Tradução Libras',
+                icon: Switch(
+                  value: false,
+                  onChanged: (value) async {},
+                  activeTrackColor: Colors.redAccent,
+                  activeColor: Colors.white,
+                ),
+              ),
             ],
           ),
         ),

@@ -219,7 +219,10 @@ class _WatsonChatScreenState extends State<WatsonChatScreen> {
         padding: EdgeInsets.all(8.0),
         reverse: true,
         itemBuilder: (_, int index) {
-          return MessagesListItem(messages: _messageList[index]);
+          return MessagesListItem(
+            messages: _messageList[index],
+            userModel: widget.userModel,
+          );
         },
         itemCount: _messageList.length,
       ),

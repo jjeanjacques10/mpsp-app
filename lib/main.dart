@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mpsp_app/app/screens/about_screen.dart';
 import 'package:mpsp_app/app/screens/accessibility_screen.dart';
+import 'package:mpsp_app/app/screens/documents_screen.dart';
 import 'package:mpsp_app/app/screens/historic_details_screen.dart';
 import 'package:mpsp_app/app/screens/historic_screen.dart';
 import 'package:mpsp_app/app/screens/home_screen.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         "/history": (context) => HistoricScreen(),
         "/history-details": (context) => HistoricDetailsScreen(),
         "/accessibility": (context) => AccessibilityScreen(),
+        "/documents": (context) => DocumentsScreen(),
         "/about": (context) => AboutScreen(),
       },
     );
