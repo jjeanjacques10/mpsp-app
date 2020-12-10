@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mpsp_app/app/model/chat_message.dart';
 import 'package:mpsp_app/app/stores/historic_screen_store.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:crypto/crypto.dart';
 
 class HistoricScreen extends StatefulWidget {
   @override
@@ -62,12 +65,14 @@ class _HistoricScreenState extends State<HistoricScreen> {
                                   child: Row(
                                     children: [
                                       Text(
-                                        "[22/11/2020 15:43] ${chatMessage.botName}: ",
+                                        "${chatMessage.createdAt.substring(0, 4)}${chatMessage.createdAt.substring(5, 7)}${chatMessage.createdAt.substring(8, 10)}${chatMessage.createdAt.substring(14, 16)}${chatMessage.createdAt.substring(17, 19)} ",
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      Text("${chatMessage.type}"),
+                                      Text(
+                                        " |  ${chatMessage.createdAt.substring(8, 10)}/${chatMessage.createdAt.substring(5, 7)}/${chatMessage.createdAt.substring(0, 4)} ${chatMessage.createdAt.substring(11, 19)} ",
+                                      ),
                                     ],
                                   ),
                                 ),
