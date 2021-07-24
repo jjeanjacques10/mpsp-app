@@ -58,6 +58,7 @@ Projeto de um chatbot para atender os cidadãos que utilizam os serviços do Min
 - IBM Watson
 - MobX
 - API
+- Social Login (Facebook e Google)
 
 # Como executar o projeto
 
